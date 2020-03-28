@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{67755801-B779-4EF0-974B-E8F5DB37B0FD}</ProjectGuid>
+    <RootNamespace>Flty</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\bin\x86</OutDir>
+    <IntDir>$(Configuration)\x86</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Configuration)\x64</IntDir>
+    <OutDir>$(SolutionDir)..\bin\x64</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>skia.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>.\3rdparty\skia;.\3rdparty\skia\externals;.\3rdparty\skia\src;.\3rdparty\skia\include;.\3rdparty\skia\include\gpu;.\3rdparty\skia\include\c;.\3rdparty\skia\include\core;.\3rdparty\skia\include\utils;.\3rdparty\sdl\include;.\3rdparty\skia\include\config;.\3rdparty\opengl\include;.\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <PreprocessorDefinitions>OS_WIN;NOMINMAX;SDL_MAIN_HANDLED;SK_INTERNAL
+;SK_GAMMA_SRGB;
+SK_GAMMA_APPLY_TO_A8
+;SK_SCALAR_TO_FLOAT_EXCLUDED
+;SK_ALLOW_STATIC_GLOBAL_INITIALIZERS=1;
+SK_SUPPORT_GPU=1
+;SK_SUPPORT_OPENCL=0;
+SK_FORCE_DISTANCEFIELD_FONTS=0;
+SK_SCALAR_IS_FLOAT
+;SK_CAN_USE_FLOAT
+;SK_BUILD_FOR_WIN32
+;_CRT_SECURE_NO_WARNINGS;
+GR_GL_FUNCTION_TYPE=__stdcall;
+SK_BUILD_JSON_WRITER
+;SK_SUPPORT_PDF;SK_RELEASE
+;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>NotSet</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>.\3rdparty\sdl\lib;.\3rdparty\skia\lib_x86;.\3rdparty\opengl\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>skia.dll.lib;SDL2.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>.\3rdparty\skia;.\3rdparty\skia\externals;.\3rdparty\skia\src;.\3rdparty\skia\include;.\3rdparty\skia\include\gpu;.\3rdparty\skia\include\c;.\3rdparty\skia\include\core;.\3rdparty\skia\include\utils;.\3rdparty\sdl\include;.\3rdparty\skia\include\config;.\3rdparty\opengl\include;.\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>OS_WIN;NOMINMAX;SDL_MAIN_HANDLED;SK_INTERNAL
+;SK_GAMMA_SRGB;
+SK_GAMMA_APPLY_TO_A8
+;SK_SCALAR_TO_FLOAT_EXCLUDED
+;SK_ALLOW_STATIC_GLOBAL_INITIALIZERS=1;
+SK_SUPPORT_GPU=1
+;SK_SUPPORT_OPENCL=0;
+SK_FORCE_DISTANCEFIELD_FONTS=0;
+SK_SCALAR_IS_FLOAT
+;SK_CAN_USE_FLOAT
+;SK_BUILD_FOR_WIN32
+;_CRT_SECURE_NO_WARNINGS;
+GR_GL_FUNCTION_TYPE=__stdcall;
+SK_BUILD_JSON_WRITER
+;SK_SUPPORT_PDF;SK_RELEASE
+;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>NotSet</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>.\3rdparty\sdl\lib;.\3rdparty\skia\lib_x64;.\3rdparty\opengl\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>skia.dll.lib;SDL2.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="3rdparty\skia\src\utils\win\SkWGL_win.cpp" />
+    <ClCompile Include="3rdparty\skia\tools\sk_app\GLWindowContext.cpp" />
+    <ClCompile Include="3rdparty\skia\tools\sk_app\Window.cpp" />
+    <ClCompile Include="3rdparty\skia\tools\sk_app\win\GLWindowContext_win.cpp" />
+    <ClCompile Include="3rdparty\skia\tools\sk_app\win\Window_win.cpp" />
+    <ClCompile Include="base\encrypt\des.cpp" />
+    <ClCompile Include="base\file\file_util.cpp" />
+    <ClCompile Include="base\file\file_util_posix.cpp" />
+    <ClCompile Include="base\file\file_util_win.cpp" />
+    <ClCompile Include="base\framework\default_message_pump.cpp" />
+    <ClCompile Include="base\framework\message_loop.cpp" />
+    <ClCompile Include="base\framework\message_loop_proxy.cpp" />
+    <ClCompile Include="base\framework\message_pump.cpp" />
+    <ClCompile Include="base\framework\win_io_message_pump.cpp" />
+    <ClCompile Include="base\framework\win_message_pump.cpp" />
+    <ClCompile Include="base\framework\win_ui_message_pump.cpp" />
+    <ClCompile Include="base\hardware\cpu.cpp" />
+    <ClCompile Include="base\synchronization\lock_posix.cpp" />
+    <ClCompile Include="base\synchronization\lock_win.cpp" />
+    <ClCompile Include="base\synchronization\semaphore_posix.cpp" />
+    <ClCompile Include="base\synchronization\semaphore_win.cpp" />
+    <ClCompile Include="base\synchronization\waitable_event_posix.cpp" />
+    <ClCompile Include="base\synchronization\waitable_event_win.cpp" />
+    <ClCompile Include="base\third_party\chrome\atomicops_internals_x86_gcc.cc" />
+    <ClCompile Include="base\third_party\convert_utf\ConvertUTF.c" />
+    <ClCompile Include="base\third_party\modp_b64\modp_b64.cc" />
+    <ClCompile Include="base\thread\framework_thread.cpp" />
+    <ClCompile Include="base\thread\thread_local_posix.cpp" />
+    <ClCompile Include="base\thread\thread_local_win.cpp" />
+    <ClCompile Include="base\thread\thread_manager.cpp" />
+    <ClCompile Include="base\thread\thread_posix.cpp" />
+    <ClCompile Include="base\thread\thread_win.cpp" />
+    <ClCompile Include="base\time\time.cpp" />
+    <ClCompile Include="base\time\time_posix.cpp" />
+    <ClCompile Include="base\time\time_win.cpp" />
+    <ClCompile Include="base\util\at_exit.cpp" />
+    <ClCompile Include="base\util\base64.cpp" />
+    <ClCompile Include="base\util\cmd_line_args.cpp" />
+    <ClCompile Include="base\util\string_number_conversions.cpp" />
+    <ClCompile Include="base\util\string_util.cpp" />
+    <ClCompile Include="base\win32\object_watcher.cpp" />
+    <ClCompile Include="base\win32\path_util.cpp" />
+    <ClCompile Include="base\win32\platform_string_util.cpp" />
+    <ClCompile Include="base\win32\security_util.cpp" />
+    <ClCompile Include="base\win32\shared_memory.cpp" />
+    <ClCompile Include="base\win32\win_util.cpp" />
+    <ClCompile Include="LApplication.cpp" />
+    <ClCompile Include="LWindow.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="3rdparty\skia\src\utils\win\SkWGL.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\DisplayParams.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\GLWindowContext.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\Window.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\WindowContext.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\win\WindowContextFactory_win.h" />
+    <ClInclude Include="3rdparty\skia\tools\sk_app\win\Window_win.h" />
+    <ClInclude Include="base\base.h" />
+    <ClInclude Include="base\base_config.h" />
+    <ClInclude Include="base\base_export.h" />
+    <ClInclude Include="base\base_types.h" />
+    <ClInclude Include="base\callback\callback.h" />
+    <ClInclude Include="base\compiler_specific.h" />
+    <ClInclude Include="base\encrypt\des.h" />
+    <ClInclude Include="base\encrypt\encrypt.h" />
+    <ClInclude Include="base\encrypt\encrypt_impl.h" />
+    <ClInclude Include="base\error.h" />
+    <ClInclude Include="base\file\file_path.h" />
+    <ClInclude Include="base\file\file_util.h" />
+    <ClInclude Include="base\framework\default_message_pump.h" />
+    <ClInclude Include="base\framework\message_loop.h" />
+    <ClInclude Include="base\framework\message_loop_proxy.h" />
+    <ClInclude Include="base\framework\message_pump.h" />
+    <ClInclude Include="base\framework\observer_list.h" />
+    <ClInclude Include="base\framework\task.h" />
+    <ClInclude Include="base\framework\win_io_message_pump.h" />
+    <ClInclude Include="base\framework\win_message_pump.h" />
+    <ClInclude Include="base\framework\win_ui_message_pump.h" />
+    <ClInclude Include="base\hardware\cpu.h" />
+    <ClInclude Include="base\macros.h" />
+    <ClInclude Include="base\memory\blockbuffer.h" />
+    <ClInclude Include="base\memory\deleter.h" />
+    <ClInclude Include="base\memory\lazy_instance.h" />
+    <ClInclude Include="base\memory\singleton.h" />
+    <ClInclude Include="base\synchronization\lock.h" />
+    <ClInclude Include="base\synchronization\semaphore.h" />
+    <ClInclude Include="base\synchronization\waitable_event.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops_internals_arm_gcc.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops_internals_atomicword_compat.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops_internals_x86_gcc.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops_internals_x86_macosx.h" />
+    <ClInclude Include="base\third_party\chrome\atomicops_internals_x86_msvc.h" />
+    <ClInclude Include="base\third_party\convert_utf\ConvertUTF.h" />
+    <ClInclude Include="base\third_party\modp_b64\modp_b64.h" />
+    <ClInclude Include="base\third_party\modp_b64\modp_b64_data.h" />
+    <ClInclude Include="base\thread\framework_thread.h" />
+    <ClInclude Include="base\thread\thread.h" />
+    <ClInclude Include="base\thread\thread_local.h" />
+    <ClInclude Include="base\thread\thread_manager.h" />
+    <ClInclude Include="base\time\time.h" />
+    <ClInclude Include="base\util\at_exit.h" />
+    <ClInclude Include="base\util\base64.h" />
+    <ClInclude Include="base\util\cmd_line_args.h" />
+    <ClInclude Include="base\util\stringize_macros.h" />
+    <ClInclude Include="base\util\string_number_conversions.h" />
+    <ClInclude Include="base\util\string_util.h" />
+    <ClInclude Include="base\util\template_util.h" />
+    <ClInclude Include="base\util\unicode.h" />
+    <ClInclude Include="base\util\valuemap.h" />
+    <ClInclude Include="base\win32\object_watcher.h" />
+    <ClInclude Include="base\win32\path_util.h" />
+    <ClInclude Include="base\win32\platform_string_util.h" />
+    <ClInclude Include="base\win32\scoped_win_handle.h" />
+    <ClInclude Include="base\win32\security_util.h" />
+    <ClInclude Include="base\win32\shared_memory.h" />
+    <ClInclude Include="base\win32\win_util.h" />
+    <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="LWindow.h" />
+    <ClInclude Include="Main.hpp" />
+    <ClInclude Include="LApplication.h" />
+    <ClInclude Include="Utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="base\framework\readme.txt" />
+    <Text Include="base\third_party\convert_utf\readme.txt" />
+    <Text Include="base\third_party\modp_b64\Readme.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

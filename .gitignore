@@ -1,0 +1,6 @@
+*.vs
+*.iobj
+*.ipdb
+*.pdb
+*.exp
+/src/Flty/Release
