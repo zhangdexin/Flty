@@ -38,7 +38,7 @@ std::wstring GetHostName()
 	std::wstring host_name;
 	DWORD name_len = MAX_COMPUTERNAME_LENGTH + 1;
 	host_name.resize(name_len);
-	bool result = !!::GetComputerName(&host_name[0], &name_len);
+	bool result = !!::GetComputerNameW(&host_name[0], &name_len);
 	assert(result);
 	host_name.resize(name_len);
 	return host_name;

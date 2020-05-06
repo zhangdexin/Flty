@@ -3,7 +3,8 @@
 #include "LWindow.h"
 
 LApplication::LApplication():
-    m_UiThread("Flty_Ui_Thread")
+    m_MainThread("Flty_Main_Thread"),
+    m_ReanderThread("Flty_Render_Thread")
 {}
 
 bool LApplication::Dispatch(const MSG& msg)
@@ -28,25 +29,47 @@ bool LApplication::Dispatch(const MSG& msg)
     return true;
 }
 
-void LApplication::postTaskToUiThread(const StdClosure& closure)
+void LApplication::postTaskToMainThread(const LClosure& closure)
 {
-    m_UiThread.message_loop()->PostTask(closure);
+    m_MainThread.message_loop()->PostTask(closure);
 }
 
 int LApplication::exec()
 {
-    m_UiThread.RunOnCurrentThreadWithLoop(nbase::MessageLoop::kUIMessageLoop, this);
+    lthread thd{ std::bind(&LApplication::pollPreExecTask, this) };
+    m_MainThread.RunOnCurrentThreadWithLoop(nbase::MessageLoop::kUIMessageLoop, this);
+
+    thd.join();
     return 0;
 }
 
-void LApplication::addWindow(LWindow* wnd)
+void LApplication::addPreExecQueue(const LClosure& closure)
 {
-    m_WindowVct.push_back(wnd);
+    m_PreExecQueue.push(closure);
 }
 
-void LApplication::removeWindow(const LWindow* wnd)
+void LApplication::pollPreExecTask()
 {
-    auto iter = std::find(m_WindowVct.begin(), m_WindowVct.end(), wnd);
+    while (1) {
+        if (m_MainThread.IsRunning() && m_MainThread.message_loop()) {
+            while (m_PreExecQueue.size() > 0) {
+                postTaskToMainThread(m_PreExecQueue.front());
+                m_PreExecQueue.pop();
+            }
+            break;
+        }
+        std::this_thread::yield();
+    }
+}
+
+void LApplication::addWindow(const LWindowSPtr& window)
+{
+    m_WindowVct.push_back(window);
+}
+
+void LApplication::removeWindow(const LWindowSPtr& window)
+{
+    auto iter = std::find(m_WindowVct.begin(), m_WindowVct.end(), window);
     if (iter != m_WindowVct.end()) {
         m_WindowVct.erase(iter);
     }

@@ -64,7 +64,7 @@ std::wstring GetWindowsDir()
 {
 	std::wstring windows_path;
 	windows_path.resize(MAX_PATH);
-	DWORD result = ::GetWindowsDirectory(&windows_path[0], MAX_PATH);
+	DWORD result = ::GetWindowsDirectoryW(&windows_path[0], MAX_PATH);
 	windows_path.resize(result);
 	return windows_path;
 }
@@ -73,7 +73,7 @@ std::wstring GetSystemDir()
 {
 	std::wstring system_path;
 	system_path.resize(MAX_PATH);
-	DWORD result = ::GetSystemDirectory(&system_path[0], MAX_PATH);
+	DWORD result = ::GetSystemDirectoryW(&system_path[0], MAX_PATH);
 	system_path.resize(result);
 	return system_path;
 }
@@ -82,7 +82,7 @@ std::wstring GetTempDir()
 {
 	std::wstring temp_path;
 	temp_path.resize(MAX_PATH);
-	DWORD result = ::GetTempPath(MAX_PATH, &temp_path[0]);
+	DWORD result = ::GetTempPathW(MAX_PATH, &temp_path[0]);
 	temp_path.resize(result);
 	return temp_path;
 }
@@ -121,7 +121,7 @@ std::wstring GetLocalAppDataDir(HANDLE token /* = NULL */)
 		// On Windows XP, CSIDL_LOCAL_APPDATA represents "{user}\Local Settings\Application Data"
 		// while CSIDL_APPDATA represents "{user}\Application Data"
 		wchar_t buffer[MAX_PATH];
-		if (S_OK == ::SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA|CSIDL_FLAG_CREATE, token, SHGFP_TYPE_CURRENT, buffer))
+		if (S_OK == ::SHGetFolderPathW(NULL, CSIDL_LOCAL_APPDATA|CSIDL_FLAG_CREATE, token, SHGFP_TYPE_CURRENT, buffer))
 			temp_path = buffer;
 	}
 	if (!temp_path.empty())
@@ -153,7 +153,7 @@ bool DeleteDirectoryRecursively(const wchar_t *full_dir)
 							   FALSE,
 							   0,
 							   L""};
-	if (::SHFileOperation(&file_op) && !file_op.fAnyOperationsAborted)
+	if (::SHFileOperationW(&file_op) && !file_op.fAnyOperationsAborted)
 		return true;
 	return false;
 }

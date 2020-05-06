@@ -207,6 +207,18 @@
     <ClCompile Include="LWindow.cpp">
       <Filter>flty</Filter>
     </ClCompile>
+    <ClCompile Include="LLabel.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
+    <ClCompile Include="LWidget.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
+    <ClCompile Include="LStyleSheet.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
+    <ClCompile Include="LLayoutManager.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LApplication.h">
@@ -423,6 +435,18 @@
       <Filter>skia\sk_app</Filter>
     </ClInclude>
     <ClInclude Include="LWindow.h">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LLabel.h">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LWidget.h">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LStyleSheet.h">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LLayoutManager.h">
       <Filter>flty</Filter>
     </ClInclude>
   </ItemGroup>
