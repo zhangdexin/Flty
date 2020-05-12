@@ -21,9 +21,19 @@ public:
     void setTitle(const char* text);
     void addRootChild(const LWidgetSPtr& widget);
 
+    void doPrePaint();
+    void layout();
+    void graphic();
+
+    void addLayoutSet(const LWidgetSPtr& widget);
+    void addGraphicSet(const LWidgetSPtr& widget);
+
 private:
     lunique_ptr<sk_app::Window>     m_WindowPtr;
     sk_app::Window::BackendType     m_BeckendType;
+
+    lset<LWidgetSPtr>               m_LayoutWidgetSet;
+    lset<LWidgetSPtr>               m_GraphicWidgetSet;
 
     lvct_shared_ptr<LWidget>        m_Roots;
     lvct_unique_ptr<LLayoutManager> m_LayoutMgrs;

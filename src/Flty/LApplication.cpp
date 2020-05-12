@@ -5,7 +5,9 @@
 LApplication::LApplication():
     m_MainThread("Flty_Main_Thread"),
     m_ReanderThread("Flty_Render_Thread")
-{}
+{
+    m_ReanderThread.StartWithLoop(nbase::MessageLoop::kDefaultMessageLoop);
+}
 
 bool LApplication::Dispatch(const MSG& msg)
 {
@@ -31,35 +33,30 @@ bool LApplication::Dispatch(const MSG& msg)
 
 void LApplication::postTaskToMainThread(const LClosure& closure)
 {
-    m_MainThread.message_loop()->PostTask(closure);
+    if (m_MainThread.IsRunning() && m_MainThread.message_loop()) {
+        m_MainThread.message_loop()->PostTask(closure);
+    }
+    else {
+        m_PreExecQueue.push(closure);
+    }
 }
 
 int LApplication::exec()
 {
-    lthread thd{ std::bind(&LApplication::pollPreExecTask, this) };
-    m_MainThread.RunOnCurrentThreadWithLoop(nbase::MessageLoop::kUIMessageLoop, this);
 
-    thd.join();
-    return 0;
-}
-
-void LApplication::addPreExecQueue(const LClosure& closure)
-{
-    m_PreExecQueue.push(closure);
-}
-
-void LApplication::pollPreExecTask()
-{
-    while (1) {
-        if (m_MainThread.IsRunning() && m_MainThread.message_loop()) {
-            while (m_PreExecQueue.size() > 0) {
-                postTaskToMainThread(m_PreExecQueue.front());
-                m_PreExecQueue.pop();
-            }
-            break;
-        }
-        std::this_thread::yield();
+    while (m_PreExecQueue.size() > 0) {
+        m_PreExecQueue.front()();
+        m_PreExecQueue.pop();
     }
+
+    m_ReanderThread.message_loop()->PostTask([this]() {
+        for (auto& item : m_WindowVct) {
+            item->doPrePaint();
+        }
+    });
+
+    m_MainThread.RunOnCurrentThreadWithLoop(nbase::MessageLoop::kUIMessageLoop, this);
+    return 0;
 }
 
 void LApplication::addWindow(const LWindowSPtr& window)

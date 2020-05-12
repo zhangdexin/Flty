@@ -2,15 +2,23 @@
 #define __LLAYOUTMANAGER_H__
 
 #include "Defines.hpp"
+#include "WidgetRenderNode.hpp"
 
-class LWidget;
 class LLayoutManager
 {
 public:
     LLayoutManager(const LWidgetSPtr& widget);
 
+    void needLayout(const LWidgetSPtr& widget);
+    void layout();
+
 private:
-    LWidgetSPtr m_RootWidget;
+    bool compareLayoutAndCopy(LStyleSheet& style);
+    void doLayout(const LWidgetSPtr& parentWidget, const LWidgetSPtr& widget);
+
+private:
+    lmap<long long, WidgetRenderNode> m_RenderNodeMap;
+    WidgetRenderNode                 *m_RootNode;
 };
 
 #endif // __LLAYOUTMANAGER_H__

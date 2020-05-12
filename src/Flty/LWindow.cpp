@@ -13,7 +13,7 @@ LWindow::LWindow(void* platformData) :
     m_WindowPtr->pushLayer(this);
     m_WindowPtr->attach(m_BeckendType);
 
-    lApp->addPreExecQueue([this]() {
+    lApp->postTaskToMainThread([this]() {
         lApp->addWindow(shared_from_this());
     });
 }
@@ -37,7 +37,7 @@ void LWindow::onPaint(SkSurface* surface)
 
 void LWindow::onBackendCreated()
 {
-    m_WindowPtr->setTitle("mainwidnow");
+    m_WindowPtr->setTitle(u8"mainwidnow");
 }
 
 void LWindow::onIdle()
@@ -59,5 +59,44 @@ void LWindow::addRootChild(const LWidgetSPtr& widget)
 {
     m_Roots.push_back(widget);
     m_LayoutMgrs.emplace_back(std::make_unique<LLayoutManager>(widget));
+
     widget->setAttachWnd(shared_from_this());
+    widget->setLayerIndex(m_Roots.size() - 1);
+
+    addLayoutSet(widget);
+    addGraphicSet(widget);
+}
+
+void LWindow::doPrePaint()
+{
+   layout();
+   graphic();
+}
+
+void LWindow::layout()
+{
+    lset<unsigned> layers;
+    for (auto &item : m_LayoutWidgetSet) {
+        m_LayoutMgrs[item->layerIndex()]->needLayout(item);
+        layers.insert(item->layerIndex());
+    }
+
+    for (auto &item : layers) {
+        m_LayoutMgrs[item]->layout();
+    }
+}
+
+void LWindow::graphic()
+{
+
+}
+
+void LWindow::addLayoutSet(const LWidgetSPtr& widget)
+{
+    m_LayoutWidgetSet.insert(widget);
+}
+
+void LWindow::addGraphicSet(const LWidgetSPtr& widget)
+{
+    m_GraphicWidgetSet.insert(widget);
 }

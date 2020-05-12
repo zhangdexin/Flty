@@ -17,6 +17,7 @@
 #include <thread>
 #include <queue>
 #include <set>
+#include <map>
 
 // flty using
 using tstring = std::wstring;
@@ -37,7 +38,10 @@ template<typename T>
 using lset = std::set<T>;
 
 template<typename T>
-using lset_ptr = std::set<std::shared_ptr<T>>;
+using lset_shared_ptr = std::set<std::shared_ptr<T>>;
+
+template<typename K, typename V>
+using lmap = std::map<K, V>;
 
 template<typename T>
 using lshared_ptr = std::shared_ptr<T>;

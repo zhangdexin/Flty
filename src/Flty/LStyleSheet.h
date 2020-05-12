@@ -2,24 +2,41 @@
 #define __LSTYLESHEET_H__
 
 #include "include/core/SkColor.h"
+#include "include/core/SkSize.h"
+#include "include/core/SkRect.h"
+#include "include/core/SkPoint.h"
 
 class LStyleSheet
 {
 public:
     void setBackgroundColor(const SkColor& color);
+    void setSize(const SkSize& size);
 
-    constexpr unsigned width() const {
-        return m_Width;
+    SkSize size() const {
+        return m_Size;
     }
 
-    constexpr unsigned height() const {
-        return m_Height;
+    SkColor backgroundColor() const {
+        return m_BlackgroundColor;
     }
+
+    SkPoint pos() const {
+        return SkPoint::Make(m_Rect.x(), m_Rect.y());
+    }
+
+    void updateRect() {
+        updateRect({0, 0});
+    }
+    void updateRect(const SkIPoint& point);
+    void updateRectBy(const SkPoint& point);
+    void updateRect(const SkIPoint& point, const SkSize& size);
+
+    bool compareLayoutAndCopy(LStyleSheet& style);
 
 private:
-    SkColor  m_BlackgroundColor = SK_ColorGRAY;
-    unsigned m_Width = 200;
-    unsigned m_Height = 40;
+    SkColor m_BlackgroundColor = SK_ColorGRAY;
+    SkSize  m_Size             = SkSize::Make(200, 40);
+    SkRect  m_Rect             = SkRect::MakeSize(m_Size);
 };
 
 #endif //__LSTYLESHEET_H__

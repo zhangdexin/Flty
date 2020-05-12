@@ -449,6 +449,12 @@
     <ClInclude Include="LLayoutManager.h">
       <Filter>flty</Filter>
     </ClInclude>
+    <ClInclude Include="WidgetType.hpp">
+      <Filter>flty\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetRenderNode.hpp">
+      <Filter>flty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="base\framework\readme.txt">

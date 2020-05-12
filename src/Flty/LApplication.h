@@ -21,9 +21,6 @@ public:
     void postTaskToMainThread(const LClosure& closure);
     int exec();
 
-    void addPreExecQueue(const LClosure& closure);
-    void pollPreExecTask();
-
     void addWindow(const LWindowSPtr& window);
     void removeWindow(const LWindowSPtr& window);
 

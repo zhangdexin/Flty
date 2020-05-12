@@ -2,6 +2,8 @@
 #define ___LWIDGET_H__
 
 #include "include/core/SkColor.h"
+#include "include/core/SkSize.h"
+#include "WidgetType.hpp"
 #include "LStyleSheet.h"
 #include "Defines.hpp"
 #include "LWindow.h"
@@ -13,22 +15,36 @@ public:
     LWidget(const LWindowSPtr& window);
 
     void init();
-    void addChildWidget(const LWidgetSPtr& widget);
-    void setBackgroundColor(const SkColor& color);
+    virtual void addChildWidget(const LWidgetSPtr& widget);
+    virtual lvct_shared_ptr<LWidget> children() { return m_ChildWidgets; }
 
-    LWindowSPtr attachWnd() const;
+    virtual void setBackgroundColor(const SkColor& color);
+    virtual void setSize(const SkSize& size);
+
+    virtual unsigned layerIndex() const { return m_LayerIndex; }
+    virtual void setLayerIndex(unsigned index);
+
+    virtual lstring className() const {
+        return u8"lwidget";
+    }
+
+    virtual WidgetType type() const{
+        return WidgetType::Widget;
+    }
+
+    LWindowSPtr attachWnd() const { return m_AttachWnd; }
     void setAttachWnd(const LWindowSPtr& window);
 
 public:
-    lunique_ptr<LStyleSheet> m_Style;
+    LStyleSheet              m_Style;
+    const long long          m_WidgetId;
 
 protected:
     LWidgetSPtr              m_RightSibling;
     LWidgetSPtr              m_LeftSibling;
     LWindowSPtr              m_AttachWnd;
-
-private:
-    lvct_shared_ptr<LWidget> m_ChildWidget;
+    lvct_shared_ptr<LWidget> m_ChildWidgets;
+    unsigned                 m_LayerIndex = -1;
 };
 
 #endif // ___LWIDGET_H__

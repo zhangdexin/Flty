@@ -307,6 +307,8 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="Main.hpp" />
     <ClInclude Include="LApplication.h" />
     <ClInclude Include="Utils.hpp" />
+    <ClInclude Include="WidgetRenderNode.hpp" />
+    <ClInclude Include="WidgetType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="base\framework\readme.txt" />
