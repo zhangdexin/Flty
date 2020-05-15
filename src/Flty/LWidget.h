@@ -21,8 +21,8 @@ public:
     virtual void setBackgroundColor(const SkColor& color);
     virtual void setSize(const SkSize& size);
 
-    virtual unsigned layerIndex() const { return m_LayerIndex; }
-    virtual void setLayerIndex(unsigned index);
+    virtual unsigned layerIndex() const { return *m_LayerIndexPtr.get(); }
+    virtual void setLayerIndex(const lshared_ptr<unsigned>& index);
 
     virtual lstring className() const {
         return u8"lwidget";
@@ -44,7 +44,7 @@ protected:
     LWidgetSPtr              m_LeftSibling;
     LWindowSPtr              m_AttachWnd;
     lvct_shared_ptr<LWidget> m_ChildWidgets;
-    unsigned                 m_LayerIndex = -1;
+    lshared_ptr<unsigned>    m_LayerIndexPtr;
 };
 
 #endif // ___LWIDGET_H__

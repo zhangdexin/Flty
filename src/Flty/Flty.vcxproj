@@ -223,6 +223,7 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="base\win32\shared_memory.cpp" />
     <ClCompile Include="base\win32\win_util.cpp" />
     <ClCompile Include="LApplication.cpp" />
+    <ClCompile Include="LGraphicManager.cpp" />
     <ClCompile Include="LLabel.cpp" />
     <ClCompile Include="LLayoutManager.cpp" />
     <ClCompile Include="LStyleSheet.cpp" />
@@ -299,7 +300,9 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\win32\shared_memory.h" />
     <ClInclude Include="base\win32\win_util.h" />
     <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="LGraphicManager.h" />
     <ClInclude Include="LLabel.h" />
+    <ClInclude Include="LLayerContext.hpp" />
     <ClInclude Include="LLayoutManager.h" />
     <ClInclude Include="LStyleSheet.h" />
     <ClInclude Include="LWidget.h" />
@@ -307,7 +310,7 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="Main.hpp" />
     <ClInclude Include="LApplication.h" />
     <ClInclude Include="Utils.hpp" />
-    <ClInclude Include="WidgetRenderNode.hpp" />
+    <ClInclude Include="LRenderNode.hpp" />
     <ClInclude Include="WidgetType.hpp" />
   </ItemGroup>
   <ItemGroup>

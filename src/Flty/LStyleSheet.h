@@ -31,7 +31,7 @@ public:
     void updateRectBy(const SkPoint& point);
     void updateRect(const SkIPoint& point, const SkSize& size);
 
-    bool compareLayoutAndCopy(LStyleSheet& style);
+    void compareLayoutAndCopy(LStyleSheet& style);
 
 private:
     SkColor m_BlackgroundColor = SK_ColorGRAY;

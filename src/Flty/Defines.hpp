@@ -58,6 +58,11 @@ using lunique_ptr = std::unique_ptr<T>;
 template<typename T>
 using loptional = std::optional<T>;
 
+//using loptional_null = std::nullopt;
+
+template<typename T>
+using lref_wrapper = std::reference_wrapper<T>;
+
 template<typename F>
 using lfunction = std::function<F>;
 

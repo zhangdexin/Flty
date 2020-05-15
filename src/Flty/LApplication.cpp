@@ -41,9 +41,13 @@ void LApplication::postTaskToMainThread(const LClosure& closure)
     }
 }
 
+void LApplication::postTaskToRenderThread(const LClosure & closure)
+{
+    m_ReanderThread.message_loop()->PostTask(closure);
+}
+
 int LApplication::exec()
 {
-
     while (m_PreExecQueue.size() > 0) {
         m_PreExecQueue.front()();
         m_PreExecQueue.pop();

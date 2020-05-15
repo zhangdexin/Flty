@@ -39,7 +39,7 @@ void LWidget::addChildWidget(const LWidgetSPtr& widget)
 
     widget->m_RightSibling = nullptr;
     widget->setAttachWnd(m_AttachWnd);
-    widget->setLayerIndex(m_LayerIndex);
+    widget->setLayerIndex(m_LayerIndexPtr);
     m_ChildWidgets.push_back(widget);
 }
 
@@ -55,15 +55,15 @@ void LWidget::setSize(const SkSize& size)
     m_AttachWnd->addLayoutSet(shared_from_this());
 }
 
+void LWidget::setLayerIndex(const lshared_ptr<unsigned>& index)
+{
+    m_LayerIndexPtr = index;
+}
+
 void LWidget::setAttachWnd(const LWindowSPtr& window)
 {
     m_AttachWnd = window;
     for (auto item : m_ChildWidgets) {
         item->setAttachWnd(window);
     }
-}
-
-void LWidget::setLayerIndex(unsigned index)
-{
-    m_LayerIndex = index;
 }

@@ -19,6 +19,7 @@ public:
     virtual ~LApplication() = default;
 
     void postTaskToMainThread(const LClosure& closure);
+    void postTaskToRenderThread(const LClosure& closure);
     int exec();
 
     void addWindow(const LWindowSPtr& window);

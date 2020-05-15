@@ -219,6 +219,9 @@
     <ClCompile Include="LLayoutManager.cpp">
       <Filter>flty</Filter>
     </ClCompile>
+    <ClCompile Include="LGraphicManager.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LApplication.h">
@@ -452,7 +455,13 @@
     <ClInclude Include="WidgetType.hpp">
       <Filter>flty\tools</Filter>
     </ClInclude>
-    <ClInclude Include="WidgetRenderNode.hpp">
+    <ClInclude Include="LGraphicManager.h">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LLayerContext.hpp">
+      <Filter>flty</Filter>
+    </ClInclude>
+    <ClInclude Include="LRenderNode.hpp">
       <Filter>flty</Filter>
     </ClInclude>
   </ItemGroup>

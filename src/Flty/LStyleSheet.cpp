@@ -26,8 +26,13 @@ void LStyleSheet::updateRect(const SkIPoint& point, const SkSize& size)
     m_Size = size;
 }
 
-bool LStyleSheet::compareLayoutAndCopy(LStyleSheet & style)
+void LStyleSheet::compareLayoutAndCopy(LStyleSheet& style)
 {
-    if (style.m_Size == m_Size)
-    return false;
+    if (style.m_Size != m_Size) {
+        style.m_Size = m_Size;
+    }
+
+    if (style.m_Rect != m_Rect) {
+        style.m_Rect = m_Rect;
+    }
 }

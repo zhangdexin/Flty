@@ -10,6 +10,22 @@
 #include "LApplication.h"
 
 #include <shlobj.h>
+
+std::string Trim(std::string& str)
+{
+    std::string::size_type pos = str.find_last_not_of(' ');
+    if (pos != std::string::npos)
+    {
+        str.erase(pos + 1);
+        pos = str.find_first_not_of(' ');
+        if (pos != std::string::npos)
+            str.erase(0, pos);
+    }
+    else
+        str.erase(str.begin(), str.end());
+    return str;
+}
+
 int Main(void* platformData, int argc, lstring *argv)
 {
     LWindowSPtr win = std::make_shared<LWindow>(platformData);
@@ -17,15 +33,4 @@ int Main(void* platformData, int argc, lstring *argv)
 
     win->show();
     return lApp->exec();
-
-    //std::wstring sHomePath(_wgetenv(L"HOMEPATH"));
-    //sHomePath += L"\\Documents";
-
-    //char szDir[MAX_PATH] = {};
-    //GetSystemDirectoryA(szDir, MAX_PATH);
-
-    //wchar_t szBuf[1025] = { 0 };
-    //SHGetSpecialFolderPathW(NULL, szBuf, CSIDL_STARTMENU, TRUE);
-
-    //return 0;
 }
