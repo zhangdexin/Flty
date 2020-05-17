@@ -222,6 +222,9 @@
     <ClCompile Include="LGraphicManager.cpp">
       <Filter>flty</Filter>
     </ClCompile>
+    <ClCompile Include="LLayerContext.cpp">
+      <Filter>flty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LApplication.h">
@@ -458,10 +461,10 @@
     <ClInclude Include="LGraphicManager.h">
       <Filter>flty</Filter>
     </ClInclude>
-    <ClInclude Include="LLayerContext.hpp">
+    <ClInclude Include="LRenderNode.hpp">
       <Filter>flty</Filter>
     </ClInclude>
-    <ClInclude Include="LRenderNode.hpp">
+    <ClInclude Include="LLayerContext.h">
       <Filter>flty</Filter>
     </ClInclude>
   </ItemGroup>

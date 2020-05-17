@@ -2,6 +2,7 @@
 #define __LGRAPHICMANAGER_H__
 
 #include "Defines.hpp"
+#include "SkSurface.h"
 
 class LLayerContext;
 class LGraphicManager
@@ -12,7 +13,7 @@ public:
         Status_Drawing,
     };
 
-    LGraphicManager() = default;
+    LGraphicManager();
 
     bool isDrawing() const {
         return (m_Status == Status::Status_Drawing);
@@ -22,15 +23,15 @@ public:
 
     void needGraphic(const LWidgetSPtr& widget);
     void graphic(const lset<unsigned>& layers);
-    void swapBitmap(SkBitmap& bitmap);
+    void swapImage(sk_sp<SkImage>& bitmap);
 
 private:
     void compose();
 
 private:
     Status                         m_Status = Status::Status_Idle;
-    lvct_shared_ptr<LLayerContext> m_LayoutContexts;
-    SkBitmap                       m_Bitmap;
+    lvct_shared_ptr<LLayerContext> m_LayerContexts;
+    sk_sp<SkSurface>               m_Surface;
 };
 
 #endif // __LGRAPHICMANAGER_H__

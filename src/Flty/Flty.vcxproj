@@ -225,6 +225,7 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="LApplication.cpp" />
     <ClCompile Include="LGraphicManager.cpp" />
     <ClCompile Include="LLabel.cpp" />
+    <ClCompile Include="LLayerContext.cpp" />
     <ClCompile Include="LLayoutManager.cpp" />
     <ClCompile Include="LStyleSheet.cpp" />
     <ClCompile Include="LWidget.cpp" />
@@ -302,7 +303,7 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="LGraphicManager.h" />
     <ClInclude Include="LLabel.h" />
-    <ClInclude Include="LLayerContext.hpp" />
+    <ClInclude Include="LLayerContext.h" />
     <ClInclude Include="LLayoutManager.h" />
     <ClInclude Include="LStyleSheet.h" />
     <ClInclude Include="LWidget.h" />

@@ -41,7 +41,7 @@ private:
     lvct_shared_ptr<LLayoutManager> m_LayoutMgrs;
     lvct_shared_ptr<LLayerContext>  m_LayerContexts;
     lunique_ptr<LGraphicManager>    m_GraphicMgr;
-    SkBitmap                        m_Bitmap;
+    sk_sp<SkImage>                  m_Image;
 };
 
 #endif // __LWINDOW_H__

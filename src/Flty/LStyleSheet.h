@@ -24,6 +24,10 @@ public:
         return SkPoint::Make(m_Rect.x(), m_Rect.y());
     }
 
+    SkRect rect() const {
+        return m_Rect;
+    }
+
     void updateRect() {
         updateRect({0, 0});
     }
@@ -34,7 +38,7 @@ public:
     void compareLayoutAndCopy(LStyleSheet& style);
 
 private:
-    SkColor m_BlackgroundColor = SK_ColorGRAY;
+    SkColor m_BlackgroundColor = SK_ColorGREEN;
     SkSize  m_Size             = SkSize::Make(200, 40);
     SkRect  m_Rect             = SkRect::MakeSize(m_Size);
 };

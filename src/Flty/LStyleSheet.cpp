@@ -8,6 +8,7 @@ void LStyleSheet::setBackgroundColor(const SkColor& color)
 void LStyleSheet::setSize(const SkSize& size)
 {
     m_Size = size;
+    m_Rect = SkRect::MakeSize(m_Size);
 }
 
 void LStyleSheet::updateRect(const SkIPoint& point)

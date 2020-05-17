@@ -1,6 +1,6 @@
 #include "LLayoutManager.h"
 
-#include "LLayerContext.hpp"
+#include "LLayerContext.h"
 #include "LRenderNode.hpp"
 #include "LStyleSheet.h"
 #include "LWidget.h"
@@ -45,9 +45,9 @@ void LLayoutManager::doLayout(const LWidgetSPtr& parentWidget, const LWidgetSPtr
 
     auto&& parentNode = parentNodeOpt->get();
     auto&& node = nodeOpt->get();
-    if (node->m_LayoutChanged) {
-        return;
-    }
+    //if (node->m_LayoutChanged) {
+    //    return;
+    //}
 
     node->m_Style.updateRectBy(parentNode->m_Style.pos());
     node->setLayoutChanged(false)

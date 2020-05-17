@@ -3,7 +3,7 @@
 #include "include/core/SkGraphics.h"
 #include "include/core/SkSurface.h"
 #include "LLayoutManager.h"
-#include "LLayerContext.hpp"
+#include "LLayerContext.h"
 #include "LGraphicManager.h"
 #include "LWidget.h"
 
@@ -29,7 +29,7 @@ LWindow::~LWindow()
 void LWindow::onPaint(SkSurface* surface)
 {
     auto canvas = surface->getCanvas();
-    canvas->drawBitmap(m_Bitmap, 0, 0);
+    canvas->drawImage(m_Image, 0, 0);
 
     //canvas->clear(SK_ColorWHITE);
 
@@ -113,5 +113,5 @@ void LWindow::graphic()
     }
 
     m_GraphicMgr->graphic(layers);
-    m_GraphicMgr->swapBitmap(m_Bitmap);
+    m_GraphicMgr->swapImage(m_Image);
 }
