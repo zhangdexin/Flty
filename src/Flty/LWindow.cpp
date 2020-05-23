@@ -30,14 +30,6 @@ void LWindow::onPaint(SkSurface* surface)
 {
     auto canvas = surface->getCanvas();
     canvas->drawImage(m_Image, 0, 0);
-
-    //canvas->clear(SK_ColorWHITE);
-
-    //SkPaint paint;
-    //paint.setColor(SK_ColorRED);
-
-    //SkRect rect = SkRect::MakeXYWH(100, 100, 100, 100);
-    //canvas->drawRect(rect, paint);
 }
 
 void LWindow::onBackendCreated()
@@ -62,12 +54,27 @@ void LWindow::setTitle(const char* text)
 
 void LWindow::addRootChild(const LWidgetSPtr& widget)
 {
-    m_Roots.push_back(widget);
-    m_LayerContexts.emplace_back(std::make_shared<LLayerContext>(widget, m_Roots.size() - 1));
+    if (widget->parent()) {
+        return;
+    }
+
+    m_LayerContexts.emplace_back(std::make_shared<LLayerContext>(widget, m_LayerContexts.size()));
     m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(m_LayerContexts.back()));
 
     widget->setAttachWnd(shared_from_this());
     widget->setLayerIndex(m_LayerContexts.back()->m_LayerIndexPtr);
+
+    addLayoutSet(widget);
+    addGraphicSet(widget);
+}
+
+void LWindow::onChildWidgetAdd(const LWidgetSPtr& widget, unsigned layerIndex)
+{
+    if (!widget->parent()) {
+        return;
+    }
+
+    m_LayerContexts[layerIndex]->addChildNode(widget);
 
     addLayoutSet(widget);
     addGraphicSet(widget);
@@ -85,8 +92,10 @@ void LWindow::addGraphicSet(const LWidgetSPtr& widget)
 
 void LWindow::doPrePaint()
 {
-    layout();
-    graphic();
+    if (m_LayerContexts.size() > 0 && m_LayoutMgrs.size() > 0) {
+        layout();
+        graphic();
+    }
 }
 
 void LWindow::layout()

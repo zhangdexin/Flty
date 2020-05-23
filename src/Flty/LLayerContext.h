@@ -11,13 +11,13 @@ class LLayerContext
 public:
     LLayerContext(const LWidgetSPtr& widget, unsigned index);
 
-    lshared_ptr<LRenderNode> tryEmplaceNodeMap(const LWidgetSPtr& widget);
+    void addChildNode(const LWidgetSPtr& widget);
     loptional<lshared_ptr<LRenderNode>> node(long long id);
 
     void graphic();
     void doChildGraphic(SkCanvas *canvas,
                         const lshared_ptr<LRenderNode>& parentNode,
-                        const LWidgetSPtr& firstChildWidget);
+                        const lshared_ptr<LRenderNode>& node);
 
     lmap<long long, lshared_ptr<LRenderNode>> m_RenderNodeMap;
     lshared_ptr<LRenderNode>                  m_RootNodePtr;

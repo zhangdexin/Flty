@@ -11,21 +11,26 @@
 #include "LApplication.h"
 
 
+#include <ShObjIdl_core.h>
+#include <ShlGuid.h>
+#include <ShlObj_core.h>
+
 int Main(void* platformData, int argc, lstring *argv)
 {
     LWindowSPtr win = std::make_shared<LWindow>(platformData);
-    LWidgetSPtr widget{ new LWidget(win) };
-    LWidgetSPtr widget1{ new LWidget(widget) };
+    LWidgetSPtr widget{ new LWidget() };
+    LWidgetSPtr widget1{ new LWidget() };
 
-    lApp->postTaskToMainThread([widget, widget1]() {
+    widget1->setBackgroundColor(SK_ColorBLUE);
+    widget1->setSize(SkSize::Make(100, 100));
 
-        widget1->setBackgroundColor(SK_ColorBLACK);
-        widget1->setSize(SkSize::Make(100, 100));
+    widget->setBackgroundColor(SK_ColorRED);
+    widget->setSize(SkSize::Make(400, 200));
 
-        widget->setBackgroundColor(SK_ColorBLUE);
-        widget->setSize(SkSize::Make(400, 200));
-    });
+    win->addRootChild(widget);
+    widget->addChildWidget(widget1);
 
     win->show();
     return lApp->exec();
+
 }

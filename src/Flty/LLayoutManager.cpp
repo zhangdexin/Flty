@@ -11,9 +11,12 @@ LLayoutManager::LLayoutManager(const lshared_ptr<LLayerContext>& layer) :
 
 void LLayoutManager::needLayout(const LWidgetSPtr& widget)
 {
-    lshared_ptr<LRenderNode>&& nodePtr = m_LayerContext->tryEmplaceNodeMap(widget);
-    nodePtr->setStyle(widget->m_Style)
-        .setWidget(widget)
+    auto nodePtr = m_LayerContext->node(widget->m_WidgetId);
+    if (!nodePtr) {
+        return;
+    }
+
+    nodePtr->get()->setStyle(widget->m_Style)
         .setLayoutChanged(true)
         .setGraphicChangedByLayout(true);
 }
@@ -25,39 +28,23 @@ void LLayoutManager::layout()
         rootNode->m_Style.updateRect();
     }
 
-    auto&& vct = rootNode->m_Widget->children();
+    auto& vct = rootNode->m_Children;
     if (vct.size() > 0) {
-        doLayout(rootNode->m_Widget, vct[0]);
+        doLayout(rootNode, vct[0]);
     }
 }
 
-void LLayoutManager::doLayout(const LWidgetSPtr& parentWidget, const LWidgetSPtr& widget)
+void LLayoutManager::doLayout(const lshared_ptr<LRenderNode>& parentNode,
+                              const lshared_ptr<LRenderNode>& node)
 {
-    auto parentId = parentWidget->m_WidgetId;
-    auto id = widget->m_WidgetId;
-
-    auto&& parentNodeOpt = m_LayerContext->node(parentId);
-    auto&& nodeOpt = m_LayerContext->node(id);
-
-    if (!parentNodeOpt || !nodeOpt) {
-        return;
-    }
-
-    auto&& parentNode = parentNodeOpt->get();
-    auto&& node = nodeOpt->get();
-    //if (node->m_LayoutChanged) {
-    //    return;
-    //}
-
     node->m_Style.updateRectBy(parentNode->m_Style.pos());
-    node->setLayoutChanged(false)
-        .setGraphicChangedByLayout(true);
+    node->setLayoutChanged(false);
 
     // update m_RightSibling
     // TODO
 
-    auto&& vct = widget->children();
+    auto& vct = node->m_Children;
     if (vct.size() > 0) {
-        doLayout(widget, vct[0]);
+        doLayout(node, vct[0]);
     }
 }

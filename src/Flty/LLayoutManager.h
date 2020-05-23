@@ -4,6 +4,7 @@
 #include "Defines.hpp"
 
 class LLayerContext;
+class LRenderNode;
 class LLayoutManager
 {
 public:
@@ -13,7 +14,8 @@ public:
     void layout();
 
 private:
-    void doLayout(const LWidgetSPtr& parentWidget, const LWidgetSPtr& widget);
+    void doLayout(const lshared_ptr<LRenderNode>& parentNode,
+                  const lshared_ptr<LRenderNode>& node);
 
 private:
     lshared_ptr<LLayerContext> m_LayerContext;

@@ -7,8 +7,7 @@
 class LLabel: public LWidget
 {
 public:
-    LLabel(const LWidgetSPtr& widget);
-    LLabel(const LWindowSPtr& window);
+    LLabel();
 
     virtual lstring className() const {
         return u8"llabel";

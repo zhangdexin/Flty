@@ -22,6 +22,7 @@ public:
 
     void setTitle(const char* text);
     void addRootChild(const LWidgetSPtr& widget);
+    void onChildWidgetAdd(const LWidgetSPtr& widget, unsigned layerIndex);
 
     void doPrePaint();
     void layout();
@@ -37,7 +38,6 @@ private:
     lset<LWidgetSPtr>               m_LayoutWidgetSet;
     lset<LWidgetSPtr>               m_GraphicWidgetSet;
 
-    lvct_shared_ptr<LWidget>        m_Roots;
     lvct_shared_ptr<LLayoutManager> m_LayoutMgrs;
     lvct_shared_ptr<LLayerContext>  m_LayerContexts;
     lunique_ptr<LGraphicManager>    m_GraphicMgr;

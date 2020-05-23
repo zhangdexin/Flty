@@ -16,12 +16,10 @@ void LGraphicManager::updateContexts(const lvct_shared_ptr<LLayerContext>& conte
 void LGraphicManager::needGraphic(const LWidgetSPtr& widget)
 {
     auto& layerContext = m_LayerContexts[widget->layerIndex()];
-    auto&& nodeptr = layerContext->tryEmplaceNodeMap(widget);
-    if (!nodeptr->m_GraphicChangedByLayout) {
-        nodeptr->setStyle(widget->m_Style)
-            .setWidget(widget)
-            .setGraphicChangedBySet(true)
-            .setGraphicChangedByLayout(false);
+    auto&& nodeptr = layerContext->node(widget->m_WidgetId);
+    if (nodeptr && !nodeptr->get()->m_GraphicChangedByLayout) {
+        nodeptr->get()->setStyle(widget->m_Style)
+                      .setGraphicChangedBySet(true);
     }
 }
 
