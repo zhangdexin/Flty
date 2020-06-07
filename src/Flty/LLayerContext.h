@@ -9,10 +9,13 @@ class SkCanvas;
 class LLayerContext
 {
 public:
-    LLayerContext(const LWidgetSPtr& widget, unsigned index);
+    LLayerContext(const lwidget_sptr& widget, unsigned index);
+    LLayerContext(const lwidget_sptr& widget);
 
-    void addChildNode(const LWidgetSPtr& widget);
+    void addRootNode(const lwidget_sptr& widget);
+    void addChildNode(const lwidget_sptr& widget);
     loptional<lshared_ptr<LRenderNode>> node(long long id);
+    void appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, long long parentId);
 
     void graphic();
     void doChildGraphic(SkCanvas *canvas,

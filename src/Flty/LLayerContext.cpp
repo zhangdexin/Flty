@@ -3,13 +3,23 @@
 #include "SkSurface.h"
 #include "LLayerContext.h"
 
-LLayerContext::LLayerContext(const LWidgetSPtr& widget, unsigned index) :
+LLayerContext::LLayerContext(const lwidget_sptr& widget, unsigned index) :
     m_LayerIndexPtr{ std::make_shared<unsigned>(index) },
-    m_Surface{ SkSurface::MakeRasterN32Premul(800, 600) } {
+    m_Surface{ SkSurface::MakeRasterN32Premul(800, 600) }
+{
+    addRootNode(widget);
+}
 
+LLayerContext::LLayerContext(const lwidget_sptr& widget)
+{
+    addRootNode(widget);
+}
+
+void LLayerContext::addRootNode(const lwidget_sptr& widget)
+{
     m_RenderNodeMap.emplace(
         widget->m_WidgetId,
-        std::make_shared<LRenderNode>(widget->m_WidgetId, widget->m_Style));
+        std::make_shared<LRenderNode>(widget->m_WidgetId));
     m_RootNodePtr = m_RenderNodeMap[widget->m_WidgetId];
 
     for (auto &iter : widget->children()) {
@@ -17,7 +27,7 @@ LLayerContext::LLayerContext(const LWidgetSPtr& widget, unsigned index) :
     }
 }
 
-void LLayerContext::addChildNode(const LWidgetSPtr& widget)
+void LLayerContext::addChildNode(const lwidget_sptr& widget)
 {
     auto parent = widget->parent();
     if (parent == nullptr) {
@@ -38,7 +48,7 @@ void LLayerContext::addChildNode(const LWidgetSPtr& widget)
     auto &children = parentNode->m_Children;
     auto childSize = children.size();
 
-    lshared_ptr<LRenderNode> node = std::make_shared<LRenderNode>(curId, widget->m_Style);
+    lshared_ptr<LRenderNode> node = std::make_shared<LRenderNode>(curId);
     node->m_Parent = parentNode;
     if (childSize > 0) {
         children[childSize - 1]->m_RightSibling = node;
@@ -58,6 +68,23 @@ loptional<lshared_ptr<LRenderNode>> LLayerContext::node(long long id)
         return m_RenderNodeMap[id];
     }
     return std::nullopt;
+}
+
+void LLayerContext::appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, long long parentId)
+{
+    auto iter = m_RenderNodeMap.find(parentId);
+    if (iter != m_RenderNodeMap.end()) {
+        auto& rootNode = contextPtr->m_RootNodePtr;
+        auto &children = iter->second->m_Children;
+        auto childSize = children.size();
+        if (childSize > 0) {
+            children[childSize - 1]->m_RightSibling = rootNode;
+            rootNode->m_LeftSibling = children[childSize - 1];
+        }
+
+        children.push_back(std::move(rootNode));
+        m_RenderNodeMap.insert(contextPtr->m_RenderNodeMap.begin(), contextPtr->m_RenderNodeMap.end());
+    }
 }
 
 void LLayerContext::graphic()

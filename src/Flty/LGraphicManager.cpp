@@ -5,7 +5,6 @@
 LGraphicManager::LGraphicManager()
 {
     m_Surface = SkSurface::MakeRasterN32Premul(800, 600);
-    //m_Bitmap.allocPixels();
 }
 
 void LGraphicManager::updateContexts(const lvct_shared_ptr<LLayerContext>& contexts)
@@ -13,13 +12,23 @@ void LGraphicManager::updateContexts(const lvct_shared_ptr<LLayerContext>& conte
     m_LayerContexts = contexts;
 }
 
-void LGraphicManager::needGraphic(const LWidgetSPtr& widget)
+void LGraphicManager::needGraphic(const lwidget_sptr& widget)
 {
     auto& layerContext = m_LayerContexts[widget->layerIndex()];
-    auto&& nodeptr = layerContext->node(widget->m_WidgetId);
-    if (nodeptr && !nodeptr->get()->m_GraphicChangedByLayout) {
-        nodeptr->get()->setStyle(widget->m_Style)
-                      .setGraphicChangedBySet(true);
+    auto&& nodePtr = layerContext->node(widget->m_WidgetId);
+    if (nodePtr && !nodePtr->get()->m_GraphicChangedByLayout) {
+
+        auto &&node = nodePtr->get();
+        auto &style = node->m_Style;
+
+        node->setGraphicChangedBySet(true);
+
+        auto &queue = widget->m_StyledChangedQueue;
+        while (!queue->empty()) {
+            lstyleTask task;
+            queue->read(task);
+            task(style);
+        }
     }
 }
 

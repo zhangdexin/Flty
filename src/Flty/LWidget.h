@@ -7,6 +7,7 @@
 #include "LStyleSheet.h"
 #include "Defines.hpp"
 #include "LWindow.h"
+#include "base/fc_queue.h"
 
 class LWidget : public std::enable_shared_from_this<LWidget>
 {
@@ -14,7 +15,7 @@ public:
     LWidget();
 
     void init();
-    virtual void addChildWidget(const LWidgetSPtr& widget);
+    virtual void addChildWidget(const lwidget_sptr& widget);
     virtual lvct_shared_ptr<LWidget> children() { return m_ChildWidgets; }
 
     virtual void setBackgroundColor(const SkColor& color);
@@ -35,20 +36,23 @@ public:
         return WidgetType::Widget;
     }
 
-    LWindowSPtr attachWnd() const { return m_AttachWnd; }
-    void setAttachWnd(const LWindowSPtr& window);
+    lwindow_sptr attachWnd() const { return m_AttachWnd; }
+    void setAttachWnd(const lwindow_sptr& window);
 
-    LWidgetSPtr parent() const { return m_ParentPtr; }
+    lwidget_sptr parent() const { return m_ParentPtr; }
 
 public:
-    LStyleSheet              m_Style;
-    const long long          m_WidgetId;
+    LStyleSheet                 m_Style;
+    const long long             m_WidgetId;
+
+    using lstyle_queue_ptr = lshared_ptr<nvwa::fc_queue<lstyleTask>>;
+    lstyle_queue_ptr           m_StyledChangedQueue;
 
 protected:
-    LWidgetSPtr              m_ParentPtr = nullptr;
-    LWidgetSPtr              m_RightSibling = nullptr;
-    LWidgetSPtr              m_LeftSibling = nullptr;
-    LWindowSPtr              m_AttachWnd = nullptr;
+    lwidget_sptr             m_ParentPtr = nullptr;
+    lwidget_sptr             m_RightSibling = nullptr;
+    lwidget_sptr             m_LeftSibling = nullptr;
+    lwindow_sptr             m_AttachWnd = nullptr;
     lshared_ptr<unsigned>    m_LayerIndexPtr = nullptr;
     lvct_shared_ptr<LWidget> m_ChildWidgets;
 };

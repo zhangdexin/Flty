@@ -244,12 +244,14 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\base_config.h" />
     <ClInclude Include="base\base_export.h" />
     <ClInclude Include="base\base_types.h" />
+    <ClInclude Include="base\c++_features.h" />
     <ClInclude Include="base\callback\callback.h" />
     <ClInclude Include="base\compiler_specific.h" />
     <ClInclude Include="base\encrypt\des.h" />
     <ClInclude Include="base\encrypt\encrypt.h" />
     <ClInclude Include="base\encrypt\encrypt_impl.h" />
     <ClInclude Include="base\error.h" />
+    <ClInclude Include="base\fc_queue.h" />
     <ClInclude Include="base\file\file_path.h" />
     <ClInclude Include="base\file\file_util.h" />
     <ClInclude Include="base\framework\default_message_pump.h" />
@@ -300,6 +302,7 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\win32\security_util.h" />
     <ClInclude Include="base\win32\shared_memory.h" />
     <ClInclude Include="base\win32\win_util.h" />
+    <ClInclude Include="base\_nvwa.h" />
     <ClInclude Include="Defines.hpp" />
     <ClInclude Include="LGraphicManager.h" />
     <ClInclude Include="LLabel.h" />

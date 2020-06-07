@@ -20,7 +20,7 @@
 #include <map>
 
 // flty using
-using tstring = std::wstring;
+using ltstring = std::wstring;
 using lstring = std::string;
 using tstringView = std::string_view;
 using lstringView = std::wstring_view;
@@ -47,10 +47,10 @@ template<typename T>
 using lshared_ptr = std::shared_ptr<T>;
 
 class LWidget;
-using LWidgetSPtr = lshared_ptr<LWidget>;
+using lwidget_sptr = lshared_ptr<LWidget>;
 
 class LWindow;
-using LWindowSPtr = lshared_ptr<LWindow>;
+using lwindow_sptr = lshared_ptr<LWindow>;
 
 template<typename T>
 using lunique_ptr = std::unique_ptr<T>;
@@ -69,8 +69,11 @@ using lfunction = std::function<F>;
 template<typename T, typename Container = std::deque<T>>
 using lqueue = std::queue<T, Container>;
 
-using LClosure = lfunction<void(void)>;
+using lclosure = lfunction<void(void)>;
 using lthread = std::thread;
+
+class LStyleSheet;
+using lstyleTask = lfunction<void(LStyleSheet&)>;
 
 // skia using
 using SkWindow = sk_app::Window;

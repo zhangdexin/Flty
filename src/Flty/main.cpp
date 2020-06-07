@@ -10,16 +10,16 @@
 #include "SkColor.h"
 #include "LApplication.h"
 
-
-#include <ShObjIdl_core.h>
-#include <ShlGuid.h>
-#include <ShlObj_core.h>
+#include <process.h>
+#include <bcrypt.h>
+#include <TlHelp32.h>
+#include <Psapi.h>
 
 int Main(void* platformData, int argc, lstring *argv)
 {
-    LWindowSPtr win = std::make_shared<LWindow>(platformData);
-    LWidgetSPtr widget{ new LWidget() };
-    LWidgetSPtr widget1{ new LWidget() };
+    lwindow_sptr win = std::make_shared<LWindow>(platformData);
+    lwidget_sptr widget{ new LWidget() };
+    lwidget_sptr widget1{ new LWidget() };
 
     widget1->setBackgroundColor(SK_ColorBLUE);
     widget1->setSize(SkSize::Make(100, 100));
@@ -32,5 +32,4 @@ int Main(void* platformData, int argc, lstring *argv)
 
     win->show();
     return lApp->exec();
-
 }

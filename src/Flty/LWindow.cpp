@@ -52,42 +52,56 @@ void LWindow::setTitle(const char* text)
     m_WindowPtr->setTitle(text);
 }
 
-void LWindow::addRootChild(const LWidgetSPtr& widget)
+void LWindow::addRootChild(const lwidget_sptr& widget)
 {
     if (widget->parent()) {
         return;
     }
 
-    m_LayerContexts.emplace_back(std::make_shared<LLayerContext>(widget, m_LayerContexts.size()));
-    m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(m_LayerContexts.back()));
-
     widget->setAttachWnd(shared_from_this());
-    widget->setLayerIndex(m_LayerContexts.back()->m_LayerIndexPtr);
 
-    addLayoutSet(widget);
-    addGraphicSet(widget);
+    lApp->postTaskToRenderThread([this, widget, 
+                                  context = std::make_shared<LLayerContext>(widget, m_LayerContexts.size())]() {
+
+        m_LayerContexts.emplace_back(std::move(context));
+        m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(m_LayerContexts.back()));
+
+        widget->setLayerIndex(m_LayerContexts.back()->m_LayerIndexPtr);
+
+        m_LayoutWidgetSet.insert(widget);
+        m_GraphicWidgetSet.insert(widget);
+    });
 }
 
-void LWindow::onChildWidgetAdd(const LWidgetSPtr& widget, unsigned layerIndex)
+void LWindow::onChildWidgetAdd(const lwidget_sptr& widget)
 {
-    if (!widget->parent()) {
+    auto &&parent = widget->parent();
+    if (parent == nullptr) {
         return;
     }
 
-    m_LayerContexts[layerIndex]->addChildNode(widget);
+    lApp->postTaskToRenderThread([this, widget, layerIndex = parent->layerIndex(),
+                                  parentId = parent->m_WidgetId, wid = widget->m_WidgetId,
+                                  context = std::make_shared<LLayerContext>(widget)]() {
 
-    addLayoutSet(widget);
-    addGraphicSet(widget);
+        m_LayerContexts[layerIndex]->appendLayerContextNode(context, parentId);
+        m_LayoutWidgetSet.insert(widget);
+        m_GraphicWidgetSet.insert(widget);
+    });
 }
 
-void LWindow::addLayoutSet(const LWidgetSPtr& widget)
+void LWindow::addLayoutSet(const lwidget_sptr& widget)
 {
-    m_LayoutWidgetSet.insert(widget);
+    lApp->postTaskToRenderThread([this, widget]() {
+        m_LayoutWidgetSet.insert(widget);
+    });
 }
 
-void LWindow::addGraphicSet(const LWidgetSPtr& widget)
+void LWindow::addGraphicSet(const lwidget_sptr& widget)
 {
-    m_GraphicWidgetSet.insert(widget);
+    lApp->postTaskToRenderThread([this, widget]() {
+        m_GraphicWidgetSet.insert(widget);
+    });
 }
 
 void LWindow::doPrePaint()

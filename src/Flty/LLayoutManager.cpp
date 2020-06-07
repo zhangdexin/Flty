@@ -9,16 +9,25 @@ LLayoutManager::LLayoutManager(const lshared_ptr<LLayerContext>& layer) :
     m_LayerContext{ layer }
 {}
 
-void LLayoutManager::needLayout(const LWidgetSPtr& widget)
+void LLayoutManager::needLayout(const lwidget_sptr& widget)
 {
     auto nodePtr = m_LayerContext->node(widget->m_WidgetId);
     if (!nodePtr) {
         return;
     }
 
-    nodePtr->get()->setStyle(widget->m_Style)
-        .setLayoutChanged(true)
+    auto &&node = nodePtr->get();
+    auto &style = node->m_Style;
+
+    node->setLayoutChanged(true)
         .setGraphicChangedByLayout(true);
+
+    auto &queue = widget->m_StyledChangedQueue;
+    while (!queue->empty()) {
+        lstyleTask task;
+        queue->read(task);
+        task(style);
+    }
 }
 
 void LLayoutManager::layout()

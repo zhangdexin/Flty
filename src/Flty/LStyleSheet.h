@@ -6,11 +6,26 @@
 #include "include/core/SkRect.h"
 #include "include/core/SkPoint.h"
 
+namespace DefaultStyle {
+
+constexpr SkColor backgroundColor = SK_ColorGREEN;
+const SkSize size = SkSize::Make(200, 40);
+const SkRect rect = SkRect::MakeSize(DefaultStyle::size);
+
+}
+
 class LStyleSheet
 {
 public:
     void setBackgroundColor(const SkColor& color);
     void setSize(const SkSize& size);
+
+    enum StyleType : unsigned char {
+        StyleType_Size,
+        StyleType_BackGround,
+        StyleType_Pos,
+        StyleType_Rect
+    };
 
     SkSize size() const {
         return m_Size;
@@ -38,9 +53,9 @@ public:
     void compareLayoutAndCopy(LStyleSheet& style);
 
 private:
-    SkColor m_BlackgroundColor = SK_ColorGREEN;
-    SkSize  m_Size             = SkSize::Make(200, 40);
-    SkRect  m_Rect             = SkRect::MakeSize(m_Size);
+    SkColor m_BlackgroundColor = DefaultStyle::backgroundColor;
+    SkSize  m_Size             = DefaultStyle::size;
+    SkRect  m_Rect             = DefaultStyle::rect;
 };
 
 #endif //__LSTYLESHEET_H__

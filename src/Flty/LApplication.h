@@ -18,12 +18,12 @@ public:
     virtual bool Dispatch(const MSG& msg);
     virtual ~LApplication() = default;
 
-    void postTaskToMainThread(const LClosure& closure);
-    void postTaskToRenderThread(const LClosure& closure);
+    void postTaskToMainThread(const lclosure& closure);
+    void postTaskToRenderThread(const lclosure& closure);
     int exec();
 
-    void addWindow(const LWindowSPtr& window);
-    void removeWindow(const LWindowSPtr& window);
+    void addWindow(const lwindow_sptr& window);
+    void removeWindow(const lwindow_sptr& window);
 
 private:
     LApplication();
@@ -33,7 +33,7 @@ private:
     nbase::FrameworkThread   m_MainThread;
     nbase::FrameworkThread   m_ReanderThread;
     lvct_shared_ptr<LWindow> m_WindowVct;
-    lqueue<LClosure>         m_PreExecQueue;
+    lqueue<lclosure>         m_PreExecQueue;
 };
 
 #endif // __LAPPLICATION_H__

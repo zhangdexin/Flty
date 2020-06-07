@@ -10,7 +10,7 @@ class LLayoutManager
 public:
     LLayoutManager(const lshared_ptr<LLayerContext>& layer);
 
-    void needLayout(const LWidgetSPtr& widget);
+    void needLayout(const lwidget_sptr& widget);
     void layout();
 
 private:

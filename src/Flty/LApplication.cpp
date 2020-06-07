@@ -31,7 +31,7 @@ bool LApplication::Dispatch(const MSG& msg)
     return true;
 }
 
-void LApplication::postTaskToMainThread(const LClosure& closure)
+void LApplication::postTaskToMainThread(const lclosure& closure)
 {
     if (m_MainThread.IsRunning() && m_MainThread.message_loop()) {
         m_MainThread.message_loop()->PostTask(closure);
@@ -41,7 +41,7 @@ void LApplication::postTaskToMainThread(const LClosure& closure)
     }
 }
 
-void LApplication::postTaskToRenderThread(const LClosure & closure)
+void LApplication::postTaskToRenderThread(const lclosure & closure)
 {
     m_ReanderThread.message_loop()->PostTask(closure);
 }
@@ -63,12 +63,12 @@ int LApplication::exec()
     return 0;
 }
 
-void LApplication::addWindow(const LWindowSPtr& window)
+void LApplication::addWindow(const lwindow_sptr& window)
 {
     m_WindowVct.push_back(window);
 }
 
-void LApplication::removeWindow(const LWindowSPtr& window)
+void LApplication::removeWindow(const lwindow_sptr& window)
 {
     auto iter = std::find(m_WindowVct.begin(), m_WindowVct.end(), window);
     if (iter != m_WindowVct.end()) {

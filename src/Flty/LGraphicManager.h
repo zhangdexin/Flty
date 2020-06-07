@@ -21,7 +21,7 @@ public:
 
     void updateContexts(const lvct_shared_ptr<LLayerContext>& contexts);
 
-    void needGraphic(const LWidgetSPtr& widget);
+    void needGraphic(const lwidget_sptr& widget);
     void graphic(const lset<unsigned>& layers);
     void swapImage(sk_sp<SkImage>& bitmap);
 

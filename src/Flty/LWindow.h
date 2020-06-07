@@ -21,22 +21,22 @@ public:
     void show();
 
     void setTitle(const char* text);
-    void addRootChild(const LWidgetSPtr& widget);
-    void onChildWidgetAdd(const LWidgetSPtr& widget, unsigned layerIndex);
+    void addRootChild(const lwidget_sptr& widget);
+    void onChildWidgetAdd(const lwidget_sptr& widget);
 
     void doPrePaint();
     void layout();
     void graphic();
 
-    void addLayoutSet(const LWidgetSPtr& widget);
-    void addGraphicSet(const LWidgetSPtr& widget);
+    void addLayoutSet(const lwidget_sptr& widget);
+    void addGraphicSet(const lwidget_sptr& widget);
 
 private:
     lunique_ptr<sk_app::Window>     m_WindowPtr;
     sk_app::Window::BackendType     m_BeckendType;
 
-    lset<LWidgetSPtr>               m_LayoutWidgetSet;
-    lset<LWidgetSPtr>               m_GraphicWidgetSet;
+    lset<lwidget_sptr>              m_LayoutWidgetSet;
+    lset<lwidget_sptr>              m_GraphicWidgetSet;
 
     lvct_shared_ptr<LLayoutManager> m_LayoutMgrs;
     lvct_shared_ptr<LLayerContext>  m_LayerContexts;

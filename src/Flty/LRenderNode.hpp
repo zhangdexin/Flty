@@ -11,9 +11,8 @@ class LRenderNode
 {
 public:
     LRenderNode() = default;
-    LRenderNode(long long id, const LStyleSheet& style) :
+    LRenderNode(long long id) :
         m_Id{ id },
-        m_Style{ style },
         m_LayoutChanged{ true },
         m_GraphicChangedByLayout{ false },
         m_GraphicChangedBySet { false }
