@@ -8,32 +8,31 @@ void LStyleSheet::setBackgroundColor(const SkColor& color)
 void LStyleSheet::setSize(const SkSize& size)
 {
     m_Size = size;
-    m_Rect = SkRect::MakeSize(m_Size);
 }
 
-void LStyleSheet::updateRect(const SkIPoint& point)
+void LStyleSheet::setPos(const SkPoint & point)
 {
-    m_Rect.setXYWH(point.x(), point.y(), m_Size.width(), m_Size.height());
+    m_Pos = point;
 }
 
-void LStyleSheet::updateRectBy(const SkPoint& point)
+void LStyleSheet::updateBoundingRect()
 {
-    m_Rect.makeOffset(point);
+    m_BoundingRect.setXYWH(m_Pos.x(), m_Pos.y(), m_Size.width(), m_Size.height());
 }
 
-void LStyleSheet::updateRect(const SkIPoint& point, const SkSize& size)
+void LStyleSheet::updateBoundingRectBy(const SkPoint& pos)
 {
-    m_Rect.setXYWH(point.x(), point.y(), size.width(), size.height());
-    m_Size = size;
+    updateBoundingRect();
+    m_BoundingRect.offset(pos);
 }
 
 void LStyleSheet::compareLayoutAndCopy(LStyleSheet& style)
 {
-    if (style.m_Size != m_Size) {
-        style.m_Size = m_Size;
-    }
+    //if (style.m_Size != m_Size) {
+    //    style.m_Size = m_Size;
+    //}
 
-    if (style.m_Rect != m_Rect) {
-        style.m_Rect = m_Rect;
-    }
+    //if (style.m_Rect != m_Rect) {
+    //    style.m_Rect = m_Rect;
+    //}
 }

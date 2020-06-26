@@ -10,8 +10,7 @@ LWidget::LWidget() :
 {}
 
 void LWidget::init()
-{
-}
+{}
 
 void LWidget::addChildWidget(const lwidget_sptr& widget)
 {
@@ -57,6 +56,19 @@ void LWidget::setSize(const SkSize& size)
     m_StyledChangedQueue->write(task);
 
     m_Style.setSize(size);
+    if (m_AttachWnd) {
+        m_AttachWnd->addLayoutSet(shared_from_this());
+    }
+}
+
+void LWidget::setPosition(const SkPoint &pt)
+{
+    lstyleTask task = [pt](LStyleSheet& style) {
+        style.setPos(pt);
+    };
+    m_StyledChangedQueue->write(task);
+
+    m_Style.setPos(pt);
     if (m_AttachWnd) {
         m_AttachWnd->addLayoutSet(shared_from_this());
     }

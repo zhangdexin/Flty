@@ -20,6 +20,10 @@ public:
 
     virtual void setBackgroundColor(const SkColor& color);
     virtual void setSize(const SkSize& size);
+    virtual void setPosition(const SkPoint& pt); // relative parent
+    virtual void setPositon(int x, int y) {
+        setPosition(SkPoint::Make(x, y));
+    }
 
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {
@@ -46,7 +50,7 @@ public:
     const long long             m_WidgetId;
 
     using lstyle_queue_ptr = lshared_ptr<nvwa::fc_queue<lstyleTask>>;
-    lstyle_queue_ptr           m_StyledChangedQueue;
+    lstyle_queue_ptr            m_StyledChangedQueue;
 
 protected:
     lwidget_sptr             m_ParentPtr = nullptr;

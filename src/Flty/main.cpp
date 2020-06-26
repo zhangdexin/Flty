@@ -23,12 +23,14 @@ int Main(void* platformData, int argc, lstring *argv)
 
     widget1->setBackgroundColor(SK_ColorBLUE);
     widget1->setSize(SkSize::Make(100, 100));
+    widget1->setPosition(SkPoint::Make(20, 20));
 
     widget->setBackgroundColor(SK_ColorRED);
     widget->setSize(SkSize::Make(400, 200));
 
     win->addRootChild(widget);
-    widget->addChildWidget(widget1);
+    win->addRootChild(widget1);
+    //widget->addChildWidget(widget1);
 
     win->show();
     return lApp->exec();

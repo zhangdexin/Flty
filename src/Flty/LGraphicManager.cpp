@@ -2,9 +2,17 @@
 #include "LWidget.h"
 #include "LLayerContext.h"
 
-LGraphicManager::LGraphicManager()
+LGraphicManager::LGraphicManager():
+    m_Surface{ nullptr }
+{}
+
+void LGraphicManager::initCanvas(int width, int height)
 {
-    m_Surface = SkSurface::MakeRasterN32Premul(800, 600);
+    if (m_Surface && (m_Surface->width() != width || m_Surface->height() != height)) {
+        return;
+    }
+
+    m_Surface = SkSurface::MakeRasterN32Premul(width, height);
 }
 
 void LGraphicManager::updateContexts(const lvct_shared_ptr<LLayerContext>& contexts)
@@ -34,6 +42,10 @@ void LGraphicManager::needGraphic(const lwidget_sptr& widget)
 
 void LGraphicManager::graphic(const lset<unsigned>& layers)
 {
+    if (!m_Surface) {
+        return;
+    }
+
     for (auto &index : layers) {
         m_LayerContexts[index]->graphic();
     }
@@ -47,11 +59,17 @@ void LGraphicManager::compose()
     canvas->clear(SK_ColorWHITE);
 
     for (auto& context : m_LayerContexts) {
-        canvas->drawImage(context->m_Surface->makeImageSnapshot(), 0, 0);
+        canvas->drawImageRect(context->m_Surface->makeImageSnapshot(), 
+                              context->validBoundRect(),
+                              context->validBoundRect(), nullptr);
     }
 }
 
 void LGraphicManager::swapImage(sk_sp<SkImage>& image)
 {
+    if (!m_Surface) {
+        return;
+    }
+
     image = m_Surface->makeImageSnapshot();
 }

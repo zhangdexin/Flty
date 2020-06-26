@@ -34,19 +34,20 @@ void LLayoutManager::layout()
 {
     auto& rootNode = m_LayerContext->m_RootNodePtr;
     if (rootNode->m_LayoutChanged) {
-        rootNode->m_Style.updateRect();
+        rootNode->m_Style.updateBoundingRect();
     }
 
     auto& vct = rootNode->m_Children;
     if (vct.size() > 0) {
-        doLayout(rootNode, vct[0]);
+        SkRect&& rt = rootNode->m_Style.boundingRect();
+        SkPoint offset = SkPoint::Make(rt.x(), rt.y());
+        doLayout(offset, vct[0]);
     }
 }
 
-void LLayoutManager::doLayout(const lshared_ptr<LRenderNode>& parentNode,
-                              const lshared_ptr<LRenderNode>& node)
+void LLayoutManager::doLayout(const SkPoint &off, lshared_ptr<LRenderNode>& node)
 {
-    node->m_Style.updateRectBy(parentNode->m_Style.pos());
+    node->m_Style.updateBoundingRectBy(off);
     node->setLayoutChanged(false);
 
     // update m_RightSibling
@@ -54,6 +55,8 @@ void LLayoutManager::doLayout(const lshared_ptr<LRenderNode>& parentNode,
 
     auto& vct = node->m_Children;
     if (vct.size() > 0) {
-        doLayout(node, vct[0]);
+        SkRect&& rt = node->m_Style.boundingRect();
+        SkPoint offset = SkPoint::Make(rt.x(), rt.y());
+        doLayout(offset, vct[0]);
     }
 }

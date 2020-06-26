@@ -14,6 +14,8 @@ public:
     };
 
     LGraphicManager();
+    void initCanvas(int width, int height);
+    //void resizeCanvas(int width, int height);
 
     bool isDrawing() const {
         return (m_Status == Status::Status_Drawing);

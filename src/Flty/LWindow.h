@@ -18,13 +18,14 @@ public:
     virtual void onBackendCreated();
 
     void onIdle();
+    void onResize(int width, int height);
     void show();
 
     void setTitle(const char* text);
     void addRootChild(const lwidget_sptr& widget);
     void onChildWidgetAdd(const lwidget_sptr& widget);
 
-    void doPrePaint();
+    void doRender();
     void layout();
     void graphic();
 
@@ -42,6 +43,7 @@ private:
     lvct_shared_ptr<LLayerContext>  m_LayerContexts;
     lunique_ptr<LGraphicManager>    m_GraphicMgr;
     sk_sp<SkImage>                  m_Image;
+    lvct_shared_ptr<LWidget>        m_Roots;
 };
 
 #endif // __LWINDOW_H__

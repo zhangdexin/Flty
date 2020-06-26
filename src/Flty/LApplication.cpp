@@ -55,7 +55,7 @@ int LApplication::exec()
 
     m_ReanderThread.message_loop()->PostTask([this]() {
         for (auto& item : m_WindowVct) {
-            item->doPrePaint();
+            item->doRender();
         }
     });
 

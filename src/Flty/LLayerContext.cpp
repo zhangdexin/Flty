@@ -3,16 +3,23 @@
 #include "SkSurface.h"
 #include "LLayerContext.h"
 
-LLayerContext::LLayerContext(const lwidget_sptr& widget, unsigned index) :
-    m_LayerIndexPtr{ std::make_shared<unsigned>(index) },
-    m_Surface{ SkSurface::MakeRasterN32Premul(800, 600) }
+LLayerContext::LLayerContext(const lwidget_sptr& widget)
 {
     addRootNode(widget);
 }
 
-LLayerContext::LLayerContext(const lwidget_sptr& widget)
+void LLayerContext::initCanvas(int width, int height)
 {
-    addRootNode(widget);
+    if (m_Surface && (m_Surface->width() != width || m_Surface->height() != height)) {
+        return;
+    }
+
+    m_Surface = SkSurface::MakeRasterN32Premul(width, height);
+}
+
+void LLayerContext::setLayerIndex(unsigned index)
+{
+    m_LayerIndexPtr = std::make_shared<unsigned>(index);
 }
 
 void LLayerContext::addRootNode(const lwidget_sptr& widget)
@@ -89,6 +96,10 @@ void LLayerContext::appendLayerContextNode(const lshared_ptr<LLayerContext>& con
 
 void LLayerContext::graphic()
 {
+    if (!m_Surface) {
+        return;
+    }
+
     auto canvas = m_Surface->getCanvas();
     canvas->clear(SK_ColorWHITE);
 
@@ -96,7 +107,7 @@ void LLayerContext::graphic()
 
     SkPaint paint;
     paint.setColor(style.backgroundColor());
-    canvas->drawRect(style.rect(), paint);
+    canvas->drawRect(style.boundingRect(), paint);
 
     if (m_RootNodePtr->m_Children.size() > 0) {
         doChildGraphic(canvas, m_RootNodePtr, m_RootNodePtr->m_Children[0]);
@@ -111,9 +122,14 @@ void LLayerContext::doChildGraphic(SkCanvas* canvas,
 
     SkPaint paint;
     paint.setColor(style.backgroundColor());
-    canvas->drawRect(style.rect(), paint);
+    canvas->drawRect(style.boundingRect(), paint);
 
     if (node->m_Children.size() > 0) {
         doChildGraphic(canvas, node, node->m_Children[0]);
     }
+}
+
+SkRect LLayerContext::validBoundRect() const
+{
+    return m_RootNodePtr->m_Style.boundingRect();
 }

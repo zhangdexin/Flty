@@ -9,8 +9,11 @@ class SkCanvas;
 class LLayerContext
 {
 public:
-    LLayerContext(const lwidget_sptr& widget, unsigned index);
+    LLayerContext() = default;
     LLayerContext(const lwidget_sptr& widget);
+
+    void initCanvas(int width, int height);
+    void setLayerIndex(unsigned index);
 
     void addRootNode(const lwidget_sptr& widget);
     void addChildNode(const lwidget_sptr& widget);
@@ -21,6 +24,8 @@ public:
     void doChildGraphic(SkCanvas *canvas,
                         const lshared_ptr<LRenderNode>& parentNode,
                         const lshared_ptr<LRenderNode>& node);
+
+    SkRect validBoundRect() const;
 
     lmap<long long, lshared_ptr<LRenderNode>> m_RenderNodeMap;
     lshared_ptr<LRenderNode>                  m_RootNodePtr;

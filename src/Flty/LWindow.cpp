@@ -39,7 +39,20 @@ void LWindow::onBackendCreated()
 
 void LWindow::onIdle()
 {
+    lApp->postTaskToRenderThread(std::bind(&LWindow::doRender, this));
     m_WindowPtr->inval();
+}
+
+void LWindow::onResize(int width, int height)
+{
+    m_GraphicMgr->initCanvas(width, height);
+    for (auto& iter : m_LayerContexts) {
+        iter->initCanvas(width, height);
+    }
+
+    for (auto &iter : m_Roots) {
+        addLayoutSet(iter);
+    }
 }
 
 void LWindow::show()
@@ -57,16 +70,19 @@ void LWindow::addRootChild(const lwidget_sptr& widget)
     if (widget->parent()) {
         return;
     }
-
+    m_Roots.push_back(std::move(widget));
     widget->setAttachWnd(shared_from_this());
 
     lApp->postTaskToRenderThread([this, widget, 
-                                  context = std::make_shared<LLayerContext>(widget, m_LayerContexts.size())]() {
+                                  context = std::make_shared<LLayerContext>(widget)]() {
 
         m_LayerContexts.emplace_back(std::move(context));
-        m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(m_LayerContexts.back()));
 
-        widget->setLayerIndex(m_LayerContexts.back()->m_LayerIndexPtr);
+        auto &&backLayer = m_LayerContexts.back();
+        backLayer->setLayerIndex(m_LayerContexts.size() - 1);
+
+        m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(backLayer));
+        widget->setLayerIndex(backLayer->m_LayerIndexPtr);
 
         m_LayoutWidgetSet.insert(widget);
         m_GraphicWidgetSet.insert(widget);
@@ -104,9 +120,9 @@ void LWindow::addGraphicSet(const lwidget_sptr& widget)
     });
 }
 
-void LWindow::doPrePaint()
+void LWindow::doRender()
 {
-    if (m_LayerContexts.size() > 0 && m_LayoutMgrs.size() > 0) {
+    if (m_LayoutWidgetSet.size() > 0 || m_GraphicWidgetSet.size() > 0) {
         layout();
         graphic();
     }
@@ -123,6 +139,7 @@ void LWindow::layout()
     for (auto &item : layers) {
         m_LayoutMgrs[item]->layout();
     }
+    m_LayoutWidgetSet.clear();
 }
 
 void LWindow::graphic()
@@ -137,4 +154,6 @@ void LWindow::graphic()
 
     m_GraphicMgr->graphic(layers);
     m_GraphicMgr->swapImage(m_Image);
+
+    m_GraphicWidgetSet.clear();
 }
