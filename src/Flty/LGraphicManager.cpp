@@ -8,7 +8,7 @@ LGraphicManager::LGraphicManager():
 
 void LGraphicManager::initCanvas(int width, int height)
 {
-    if (m_Surface && (m_Surface->width() != width || m_Surface->height() != height)) {
+    if (m_Surface && m_Surface->width() == width && m_Surface->height() == height) {
         return;
     }
 

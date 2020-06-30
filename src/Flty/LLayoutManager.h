@@ -14,7 +14,7 @@ public:
     void layout();
 
 private:
-    void doLayout(const SkPoint &offset, lshared_ptr<LRenderNode>& node);
+    void doLayout(lshared_ptr<LRenderNode>& parent, lshared_ptr<LRenderNode>& node);
 
 private:
     lshared_ptr<LLayerContext> m_LayerContext;

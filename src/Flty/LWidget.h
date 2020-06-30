@@ -18,12 +18,14 @@ public:
     virtual void addChildWidget(const lwidget_sptr& widget);
     virtual lvct_shared_ptr<LWidget> children() { return m_ChildWidgets; }
 
+    // TODO: virtual
     virtual void setBackgroundColor(const SkColor& color);
     virtual void setSize(const SkSize& size);
     virtual void setPosition(const SkPoint& pt); // relative parent
     virtual void setPositon(int x, int y) {
         setPosition(SkPoint::Make(x, y));
     }
+    virtual void setBox(LBoxType type);
 
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {
@@ -57,8 +59,9 @@ protected:
     lwidget_sptr             m_RightSibling = nullptr;
     lwidget_sptr             m_LeftSibling = nullptr;
     lwindow_sptr             m_AttachWnd = nullptr;
-    lshared_ptr<unsigned>    m_LayerIndexPtr = nullptr;
     lvct_shared_ptr<LWidget> m_ChildWidgets;
+
+    lshared_ptr<unsigned>    m_LayerIndexPtr = nullptr;
 };
 
 #endif // ___LWIDGET_H__

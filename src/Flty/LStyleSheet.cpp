@@ -15,15 +15,29 @@ void LStyleSheet::setPos(const SkPoint & point)
     m_Pos = point;
 }
 
+void LStyleSheet::setFloat(bool isFloat)
+{
+    m_IsFloat = isFloat;
+}
+
+void LStyleSheet::setBoxType(LBoxType type)
+{
+    m_BoxType = type;
+}
+
 void LStyleSheet::updateBoundingRect()
 {
     m_BoundingRect.setXYWH(m_Pos.x(), m_Pos.y(), m_Size.width(), m_Size.height());
 }
 
-void LStyleSheet::updateBoundingRectBy(const SkPoint& pos)
+void LStyleSheet::updateBoundingRectByOffset(const SkPoint& pos)
 {
     updateBoundingRect();
     m_BoundingRect.offset(pos);
+}
+
+void LStyleSheet::updateBoundingRectByOffAndSize(const SkPoint& pos, const SkSize& size)
+{
 }
 
 void LStyleSheet::compareLayoutAndCopy(LStyleSheet& style)

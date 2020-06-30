@@ -39,24 +39,46 @@ void LLayoutManager::layout()
 
     auto& vct = rootNode->m_Children;
     if (vct.size() > 0) {
-        SkRect&& rt = rootNode->m_Style.boundingRect();
-        SkPoint offset = SkPoint::Make(rt.x(), rt.y());
-        doLayout(offset, vct[0]);
+        
+        doLayout(rootNode, vct[0]);
     }
 }
 
-void LLayoutManager::doLayout(const SkPoint &off, lshared_ptr<LRenderNode>& node)
+void LLayoutManager::doLayout(lshared_ptr<LRenderNode>& parent, lshared_ptr<LRenderNode>& node)
 {
-    node->m_Style.updateBoundingRectBy(off);
-    node->setLayoutChanged(false);
+    auto& parentStyle = parent->m_Style;
+    const auto&& boxType = parentStyle.boxType();
 
-    // update m_RightSibling
-    // TODO
+    SkRect&& rt = parentStyle.boundingRect();
+    SkPoint offset = SkPoint::Make(rt.x(), rt.y());
+    int size = parent->m_Children.size();
 
-    auto& vct = node->m_Children;
-    if (vct.size() > 0) {
-        SkRect&& rt = node->m_Style.boundingRect();
-        SkPoint offset = SkPoint::Make(rt.x(), rt.y());
-        doLayout(offset, vct[0]);
-    }
+    lshared_ptr<LRenderNode> child = node;
+    int parentWidth = parentStyle.width();
+    int parentHeight = parentStyle.height();
+    int childWidth = parentWidth / size;
+    int childHeight = parentHeight / size;
+    int dxy = 0;
+    do {
+        auto& style = child->m_Style;
+        if (boxType == LBoxType::Horizontal) {
+            style.setPos(SkPoint::Make(dxy * childWidth, 0));
+            style.setSize(SkSize::Make(childWidth, parentHeight));
+        }
+        else if (boxType == LBoxType::Vertical) {
+            style.setPos(SkPoint::Make(0, dxy * childHeight));
+            style.setSize(SkSize::Make(parentWidth, childHeight));
+        }
+
+        style.updateBoundingRectByOffset(offset);
+        child->setLayoutChanged(false);
+        ++dxy;
+
+        // update first children
+        auto& vct = child->m_Children;
+        if (vct.size() > 0) {
+            doLayout(child, vct[0]);
+        }
+
+    } while ((child = child->m_RightSibling) != nullptr);
 }

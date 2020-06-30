@@ -228,6 +228,7 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="LLayerContext.cpp" />
     <ClCompile Include="LLayoutManager.cpp" />
     <ClCompile Include="LStyleSheet.cpp" />
+    <ClCompile Include="LVerticalBox.cpp" />
     <ClCompile Include="LWidget.cpp" />
     <ClCompile Include="LWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -309,6 +310,7 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="LLayerContext.h" />
     <ClInclude Include="LLayoutManager.h" />
     <ClInclude Include="LStyleSheet.h" />
+    <ClInclude Include="LVerticalBox.h" />
     <ClInclude Include="LWidget.h" />
     <ClInclude Include="LWindow.h" />
     <ClInclude Include="Main.hpp" />

@@ -50,7 +50,7 @@ struct SkSize {
     SkScalar fWidth;
     SkScalar fHeight;
 
-    static SkSize Make(SkScalar w, SkScalar h) { return {w, h}; }
+    static constexpr SkSize Make(SkScalar w, SkScalar h) { return {w, h}; }
 
     static SkSize Make(const SkISize& src) {
         return {SkIntToScalar(src.width()), SkIntToScalar(src.height())};

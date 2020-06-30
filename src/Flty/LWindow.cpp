@@ -110,6 +110,7 @@ void LWindow::addLayoutSet(const lwidget_sptr& widget)
 {
     lApp->postTaskToRenderThread([this, widget]() {
         m_LayoutWidgetSet.insert(widget);
+        m_GraphicWidgetSet.insert(widget);
     });
 }
 

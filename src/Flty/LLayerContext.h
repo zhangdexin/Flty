@@ -21,9 +21,7 @@ public:
     void appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, long long parentId);
 
     void graphic();
-    void doChildGraphic(SkCanvas *canvas,
-                        const lshared_ptr<LRenderNode>& parentNode,
-                        const lshared_ptr<LRenderNode>& node);
+    void doChildGraphic(SkCanvas *canvas, const lshared_ptr<LRenderNode>& node);
 
     SkRect validBoundRect() const;
 

@@ -10,7 +10,7 @@ LLayerContext::LLayerContext(const lwidget_sptr& widget)
 
 void LLayerContext::initCanvas(int width, int height)
 {
-    if (m_Surface && (m_Surface->width() != width || m_Surface->height() != height)) {
+    if (m_Surface && m_Surface->width() == width && m_Surface->height() == height) {
         return;
     }
 
@@ -28,6 +28,14 @@ void LLayerContext::addRootNode(const lwidget_sptr& widget)
         widget->m_WidgetId,
         std::make_shared<LRenderNode>(widget->m_WidgetId));
     m_RootNodePtr = m_RenderNodeMap[widget->m_WidgetId];
+
+    auto& style = m_RootNodePtr->m_Style;
+    auto &queue = widget->m_StyledChangedQueue;
+    while (!queue->empty()) {
+        lstyleTask task;
+        queue->read(task);
+        task(style);
+    }
 
     for (auto &iter : widget->children()) {
         addChildNode(iter);
@@ -55,7 +63,17 @@ void LLayerContext::addChildNode(const lwidget_sptr& widget)
     auto &children = parentNode->m_Children;
     auto childSize = children.size();
 
+    // new node and set info
     lshared_ptr<LRenderNode> node = std::make_shared<LRenderNode>(curId);
+    auto& style = node->m_Style;
+    auto &queue = widget->m_StyledChangedQueue;
+    while (!queue->empty()) {
+        lstyleTask task;
+        queue->read(task);
+        task(style);
+    }
+
+    // set node relation
     node->m_Parent = parentNode;
     if (childSize > 0) {
         children[childSize - 1]->m_RightSibling = node;
@@ -110,13 +128,11 @@ void LLayerContext::graphic()
     canvas->drawRect(style.boundingRect(), paint);
 
     if (m_RootNodePtr->m_Children.size() > 0) {
-        doChildGraphic(canvas, m_RootNodePtr, m_RootNodePtr->m_Children[0]);
+        doChildGraphic(canvas, m_RootNodePtr->m_Children[0]);
     }
 }
 
-void LLayerContext::doChildGraphic(SkCanvas* canvas,
-                                   const lshared_ptr<LRenderNode>& parentNode,
-                                   const lshared_ptr<LRenderNode>& node)
+void LLayerContext::doChildGraphic(SkCanvas* canvas, const lshared_ptr<LRenderNode>& node)
 {
     const auto& style = node->m_Style;
 
@@ -124,8 +140,13 @@ void LLayerContext::doChildGraphic(SkCanvas* canvas,
     paint.setColor(style.backgroundColor());
     canvas->drawRect(style.boundingRect(), paint);
 
+    auto& siblingNode = node->m_RightSibling;
+    if (siblingNode) {
+        doChildGraphic(canvas, siblingNode);
+    }
+
     if (node->m_Children.size() > 0) {
-        doChildGraphic(canvas, node, node->m_Children[0]);
+        doChildGraphic(canvas, node->m_Children[0]);
     }
 }
 

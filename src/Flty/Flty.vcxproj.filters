@@ -58,6 +58,9 @@
     <Filter Include="skia\sk_app\win">
       <UniqueIdentifier>{6bbbdfa5-1309-418f-8932-f11260ceabac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="flty\ui">
+      <UniqueIdentifier>{0cf1e436-daa0-446d-a0b8-ab5886c86d34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -207,12 +210,6 @@
     <ClCompile Include="LWindow.cpp">
       <Filter>flty</Filter>
     </ClCompile>
-    <ClCompile Include="LLabel.cpp">
-      <Filter>flty</Filter>
-    </ClCompile>
-    <ClCompile Include="LWidget.cpp">
-      <Filter>flty</Filter>
-    </ClCompile>
     <ClCompile Include="LStyleSheet.cpp">
       <Filter>flty</Filter>
     </ClCompile>
@@ -224,6 +221,15 @@
     </ClCompile>
     <ClCompile Include="LLayerContext.cpp">
       <Filter>flty</Filter>
+    </ClCompile>
+    <ClCompile Include="LLabel.cpp">
+      <Filter>flty\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="LWidget.cpp">
+      <Filter>flty\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="LVerticalBox.cpp">
+      <Filter>flty\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,12 +449,6 @@
     <ClInclude Include="LWindow.h">
       <Filter>flty</Filter>
     </ClInclude>
-    <ClInclude Include="LLabel.h">
-      <Filter>flty</Filter>
-    </ClInclude>
-    <ClInclude Include="LWidget.h">
-      <Filter>flty</Filter>
-    </ClInclude>
     <ClInclude Include="LStyleSheet.h">
       <Filter>flty</Filter>
     </ClInclude>
@@ -475,6 +475,15 @@
     </ClInclude>
     <ClInclude Include="base\_nvwa.h">
       <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="LLabel.h">
+      <Filter>flty\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="LWidget.h">
+      <Filter>flty\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="LVerticalBox.h">
+      <Filter>flty\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
