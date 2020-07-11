@@ -17,21 +17,21 @@ namespace win32
 
 bool SharedMemory::Create(const wchar_t *name, int size)
 {
-	assert(mapping_ == NULL);
+	/*assert(mapping_ == NULL);
 	mapping_ = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE,
 		0, size, name);
 	if(mapping_)
 	{
 		win32::SetObjectToLowIntegrity(mapping_);
-	}
+	}*/
 	return mapping_ != NULL;
 }
 
 
 bool SharedMemory::Open(const wchar_t *name)
 {
-	assert(mapping_ == NULL);
-	mapping_ = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, name);
+	/*assert(mapping_ == NULL);
+	mapping_ = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, FALSE, name);*/
 	return mapping_ != NULL;
 }
 

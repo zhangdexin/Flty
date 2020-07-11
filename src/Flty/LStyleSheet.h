@@ -12,26 +12,35 @@ enum LBoxType : unsigned char {
     Horizontal,
 };
 
+enum LSizePolicy : unsigned char {
+    Hint      = 0,
+    Expanding = 1,
+    Count     = 2,
+};
+
+enum LSizeFixed : unsigned short {
+    NoneFixed   = 0x00,
+    WidthFixed  = 0x01,
+    HeightFixed = 0x02,
+    AllFixed    = WidthFixed | HeightFixed,
+};
+
 namespace DefaultStyle {
 
 constexpr SkColor backgroundColor = SK_ColorGREEN;
-constexpr SkSize size             = SkSize::Make(200, 40);
-constexpr SkRect rect             = SkRect::MakeSize(DefaultStyle::size);
-constexpr SkPoint pos             = SkPoint::Make(0, 0);
-constexpr bool isFloat            = false;
+constexpr SkISize size            = SkISize::Make(200, 40);
+constexpr SkISize maxSize         = SkISize::Make(INT16_MAX, INT16_MAX);
+constexpr SkIRect rect            = SkIRect::MakeSize(size);
+constexpr SkIPoint pos            = SkIPoint::Make(0, 0);
 constexpr LBoxType boxType        = LBoxType::None;
+constexpr LSizePolicy sizePolicy  = LSizePolicy::Hint;
+constexpr LSizeFixed sieFixed     = LSizeFixed::NoneFixed;
 
 }
 
 class LStyleSheet
 {
 public:
-    void setBackgroundColor(const SkColor& color);
-    void setSize(const SkSize& size);
-    void setPos(const SkPoint& point);
-    void setFloat(bool isFloat);
-    void setBoxType(LBoxType type);
-
     enum StyleType : unsigned char {
         StyleType_Size,
         StyleType_Background,
@@ -39,6 +48,18 @@ public:
         StyleType_Rect,
         StyleType_Float,
     };
+
+    void setBackgroundColor(const SkColor& color);
+    void setSize(const SkISize& size);
+    void setMinSize(const SkISize& size);
+    void setMaxSize(const SkISize& size);
+    void setFixedSize(const SkISize& size);
+    void setFixedWidth(int width);
+    void setFixedHeight(int height);
+    void setPos(const SkIPoint& point);
+    void setFloat(bool isFloat);
+    void setBoxType(LBoxType type);
+    void setSizePolicy(LSizePolicy widthPolicy, LSizePolicy heightPolicy);
 
     int width() const {
         return m_Size.width();
@@ -48,7 +69,7 @@ public:
         return m_Size.height();
     }
 
-    SkSize size() const {
+    SkISize size() const {
         return m_Size;
     }
 
@@ -56,11 +77,11 @@ public:
         return m_BlackgroundColor;
     }
 
-    SkPoint pos() const {
+    SkIPoint pos() const {
         return m_Pos;
     }
 
-    SkRect boundingRect() const {
+    SkIRect boundingRect() const {
         return m_BoundingRect;
     }
 
@@ -68,19 +89,46 @@ public:
         return m_BoxType;
     }
 
+    SkISize minSize() const {
+        return m_MinSize;
+    }
+
+    SkISize maxSize() const {
+        return m_MaxSize;
+    }
+
+    LSizePolicy widthPolicy() const {
+        return m_WidthPolicy;
+    }
+
+    LSizePolicy heightPolicy() const {
+        return m_HeightPolicy;
+    }
+
+    bool isWidthFixed() const {
+        return m_FixedSizeType & LSizeFixed::WidthFixed;
+    }
+
+    bool isHeightFixed() const {
+        return m_FixedSizeType & LSizeFixed::HeightFixed;
+    }
+
     void updateBoundingRect();
-    void updateBoundingRectByOffset(const SkPoint& pos);
-    void updateBoundingRectByOffAndSize(const SkPoint& pos, const SkSize& size);
-    void compareLayoutAndCopy(LStyleSheet& style);
+    void updateBoundingRectByOffset(const SkIPoint& pos);
 
 
 private:
-    SkColor  m_BlackgroundColor = DefaultStyle::backgroundColor;
-    SkSize   m_Size             = DefaultStyle::size;
-    SkPoint  m_Pos              = DefaultStyle::pos;
-    SkRect   m_BoundingRect     = DefaultStyle::rect;
-    bool     m_IsFloat          = DefaultStyle::isFloat;
-    LBoxType m_BoxType          = DefaultStyle::boxType;
+    SkColor     m_BlackgroundColor = DefaultStyle::backgroundColor;
+    SkISize     m_Size             = DefaultStyle::size;
+    SkISize     m_MinSize          = DefaultStyle::size;
+    SkISize     m_MaxSize          = DefaultStyle::maxSize;
+    SkIPoint    m_Pos              = DefaultStyle::pos;
+    SkIRect     m_BoundingRect     = DefaultStyle::rect;
+    bool        m_IsFloat          = false;
+    int         m_FixedSizeType    = DefaultStyle::sieFixed;
+    LBoxType    m_BoxType          = DefaultStyle::boxType;
+    LSizePolicy m_WidthPolicy      = DefaultStyle::sizePolicy;
+    LSizePolicy m_HeightPolicy     = DefaultStyle::sizePolicy;
 };
 
 #endif //__LSTYLESHEET_H__

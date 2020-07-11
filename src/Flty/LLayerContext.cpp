@@ -125,7 +125,7 @@ void LLayerContext::graphic()
 
     SkPaint paint;
     paint.setColor(style.backgroundColor());
-    canvas->drawRect(style.boundingRect(), paint);
+    canvas->drawIRect(style.boundingRect(), paint);
 
     if (m_RootNodePtr->m_Children.size() > 0) {
         doChildGraphic(canvas, m_RootNodePtr->m_Children[0]);
@@ -138,7 +138,7 @@ void LLayerContext::doChildGraphic(SkCanvas* canvas, const lshared_ptr<LRenderNo
 
     SkPaint paint;
     paint.setColor(style.backgroundColor());
-    canvas->drawRect(style.boundingRect(), paint);
+    canvas->drawIRect(style.boundingRect(), paint);
 
     auto& siblingNode = node->m_RightSibling;
     if (siblingNode) {
@@ -150,7 +150,7 @@ void LLayerContext::doChildGraphic(SkCanvas* canvas, const lshared_ptr<LRenderNo
     }
 }
 
-SkRect LLayerContext::validBoundRect() const
+SkIRect LLayerContext::validBoundRect() const
 {
     return m_RootNodePtr->m_Style.boundingRect();
 }

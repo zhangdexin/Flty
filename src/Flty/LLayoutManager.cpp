@@ -39,46 +39,208 @@ void LLayoutManager::layout()
 
     auto& vct = rootNode->m_Children;
     if (vct.size() > 0) {
-        
-        doLayout(rootNode, vct[0]);
+        doLayout(rootNode);
     }
 }
 
-void LLayoutManager::doLayout(lshared_ptr<LRenderNode>& parent, lshared_ptr<LRenderNode>& node)
+void LLayoutManager::doLayout(lshared_ptr<LRenderNode>& parent)
 {
-    auto& parentStyle = parent->m_Style;
-    const auto&& boxType = parentStyle.boxType();
+    const auto&& boxType = parent->m_Style.boxType();
+    if (boxType == LBoxType::None) {
+        computeNoneBoxStyle(parent);
+    }
+    else if (boxType == LBoxType::Horizontal) {
+        computeHorizontalStyle(parent);
+    }
+    else if (boxType == LBoxType::Vertical) {
+        computeVerticalStyle(parent);
+    }
+}
 
-    SkRect&& rt = parentStyle.boundingRect();
-    SkPoint offset = SkPoint::Make(rt.x(), rt.y());
-    int size = parent->m_Children.size();
+void LLayoutManager::computeNoneBoxStyle(lshared_ptr<LRenderNode>& parent)
+{
+    auto &&rt = parent->m_Style.boundingRect();
+    auto &children = parent->m_Children;
+    for (auto& node : children) {
+        updateBounding(rt, node->m_Style);
+        node->setLayoutChanged(false);
 
-    lshared_ptr<LRenderNode> child = node;
-    int parentWidth = parentStyle.width();
-    int parentHeight = parentStyle.height();
-    int childWidth = parentWidth / size;
-    int childHeight = parentHeight / size;
-    int dxy = 0;
-    do {
-        auto& style = child->m_Style;
-        if (boxType == LBoxType::Horizontal) {
-            style.setPos(SkPoint::Make(dxy * childWidth, 0));
-            style.setSize(SkSize::Make(childWidth, parentHeight));
+        if (node->m_Children.size() > 0) {
+            doLayout(node);
         }
-        else if (boxType == LBoxType::Vertical) {
-            style.setPos(SkPoint::Make(0, dxy * childHeight));
-            style.setSize(SkSize::Make(parentWidth, childHeight));
+    }
+}
+
+void LLayoutManager::computeHorizontalStyle(lshared_ptr<LRenderNode>& parent)
+{
+    auto &parentStyle = parent->m_Style;
+    int limitWidth = parentStyle.width();
+    const int limitHeight = parentStyle.height();
+
+    auto &children = parent->m_Children;
+    lset<lshared_ptr<LRenderNode>> expandingNodes;
+    for (auto& node : children) {   // first layout
+        node->setLayoutChanged(false);
+
+        // width
+        if (limitWidth <= 0) {
+            // TODO: warning
+            break;
         }
 
-        style.updateBoundingRectByOffset(offset);
-        child->setLayoutChanged(false);
-        ++dxy;
-
-        // update first children
-        auto& vct = child->m_Children;
-        if (vct.size() > 0) {
-            doLayout(child, vct[0]);
+        auto &style = node->m_Style;
+        int width = 0;
+        if (style.isWidthFixed()) {
+            width = std::min(style.width(), limitWidth);
+        }
+        else if (style.widthPolicy() == LSizePolicy::Hint) {
+            width = std::max(style.width(), style.minSize().fWidth);
+            width = std::min(width, limitWidth);
+        }
+        else {
+            expandingNodes.insert(node);
         }
 
-    } while ((child = child->m_RightSibling) != nullptr);
+        // height
+        int height = style.height();
+        auto&& heightPolicy = style.heightPolicy();
+        if (style.isHeightFixed()) {
+            height = std::min(limitHeight, height);
+        }
+        else if (heightPolicy == LSizePolicy::Expanding) {
+            height = std::min(limitHeight, style.maxSize().height());
+        }
+        else if (heightPolicy == LSizePolicy::Hint) {
+            height = std::max(style.minSize().height(), height);
+            height = std::min(limitHeight, width);
+        }
+
+        style.setSize(SkISize::Make(width, height));
+        limitWidth -= width;
+    }
+
+    // adjust expanding
+    int expandingNums = expandingNodes.size();
+    if (expandingNums > 0) {
+        int width = 0;
+        for (auto& node : expandingNodes) {
+            auto &style = node->m_Style;
+
+            width = std::min(limitWidth / expandingNums, style.maxSize().fWidth);
+            if (width < style.minSize().fWidth) {
+                // TODO: warning ignore min val
+            }
+            style.setSize(SkISize::Make(width, style.height()));
+
+            limitWidth -= width;
+            expandingNums--;
+
+            if (limitWidth <= 0) {
+                limitWidth = 0;
+            }
+        }
+    }
+
+    // adjust position
+    int startOff = 0;
+    auto &&rt = parentStyle.boundingRect();
+    int adjustWidth = limitWidth / children.size();
+    for (auto& node : children) {
+        auto &style = node->m_Style;
+        style.setPos(SkIPoint::Make(startOff + adjustWidth / 2, (limitHeight - style.height()) / 2));
+        updateBounding(rt, style);
+
+        doLayout(node);
+        startOff += adjustWidth + style.width();
+    }
+}
+
+void LLayoutManager::computeVerticalStyle(lshared_ptr<LRenderNode>& parent)
+{
+    auto &parentStyle = parent->m_Style;
+    const int limitWidth = parentStyle.width();
+    int limitHeight = parentStyle.height();
+
+    auto &children = parent->m_Children;
+    lset<lshared_ptr<LRenderNode>> expandingNodes;
+    for (auto& node : children) {   // first layout
+        node->setLayoutChanged(false);
+
+        // height
+        if (limitHeight <= 0) {
+            // TODO: warning
+            break;
+        }
+
+        auto &style = node->m_Style;
+        int height = 0;
+        if (style.isHeightFixed()) {
+            height = std::min(style.height(), limitHeight);
+        }
+        else if (style.heightPolicy() == LSizePolicy::Hint) {
+            height = std::max(style.height(), style.minSize().fHeight);
+            height = std::min(height, limitHeight);
+        }
+        else {
+            expandingNodes.insert(node);
+        }
+
+        // width
+        int width = style.width();
+        auto&& widthPolicy = style.widthPolicy();
+        if (style.isWidthFixed()) {
+            width = std::min(limitWidth, width);
+        }
+        else if (widthPolicy == LSizePolicy::Expanding) {
+            width = std::min(limitWidth, style.maxSize().fWidth);
+        }
+        else if (widthPolicy == LSizePolicy::Hint) {
+            width = std::max(style.minSize().fWidth, width);
+            width = std::min(limitWidth, width);
+        }
+
+        style.setSize(SkISize::Make(width, height));
+        limitHeight -= height;
+    }
+
+    // adjust expanding
+    int expandingNums = expandingNodes.size();
+    if (expandingNums > 0) {
+        int height = 0;
+        for (auto& node : expandingNodes) {
+            auto &style = node->m_Style;
+
+            height = std::min(limitHeight / expandingNums, style.maxSize().fHeight);
+            if (height < style.minSize().fHeight) {
+                // TODO: warning ignore min val
+            }
+            style.setSize(SkISize::Make(style.width(), height));
+
+            limitHeight -= height;
+            expandingNums--;
+
+            if (limitHeight <= 0) {
+                limitHeight = 0;
+            }
+        }
+    }
+
+    // adjust position
+    int startOff = 0;
+    auto &&rt = parentStyle.boundingRect();
+    int adjustHeight = limitHeight / children.size();
+    for (auto& node : children) {
+        auto &style = node->m_Style;
+        style.setPos(SkIPoint::Make((limitWidth - style.width()) / 2, startOff + adjustHeight / 2));
+        updateBounding(rt, style);
+
+        doLayout(node);
+        startOff += adjustHeight + style.height();
+    }
+}
+
+void LLayoutManager::updateBounding(const SkIRect& parentBounding, LStyleSheet& style)
+{
+    SkIPoint offset = SkIPoint::Make(parentBounding.x(), parentBounding.y());
+    style.updateBoundingRectByOffset(offset);
 }

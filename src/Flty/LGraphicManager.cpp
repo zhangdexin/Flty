@@ -61,7 +61,7 @@ void LGraphicManager::compose()
     for (auto& context : m_LayerContexts) {
         canvas->drawImageRect(context->m_Surface->makeImageSnapshot(), 
                               context->validBoundRect(),
-                              context->validBoundRect(), nullptr);
+                              SkRect::Make(context->validBoundRect()), nullptr);
     }
 }
 

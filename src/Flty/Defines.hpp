@@ -16,6 +16,7 @@
 #include <vector>
 #include <thread>
 #include <queue>
+#include <tuple>
 #include <set>
 #include <map>
 
@@ -45,6 +46,12 @@ using lmap = std::map<K, V>;
 
 template<typename T>
 using lshared_ptr = std::shared_ptr<T>;
+
+template<typename T1, typename T2>
+using ltuple = std::tuple<T1, T2>;
+
+template<typename T, size_t _Size>
+using larray = std::array<T, _Size>;
 
 class LWidget;
 using lwidget_sptr = lshared_ptr<LWidget>;

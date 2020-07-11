@@ -23,7 +23,7 @@ public:
     void graphic();
     void doChildGraphic(SkCanvas *canvas, const lshared_ptr<LRenderNode>& node);
 
-    SkRect validBoundRect() const;
+    SkIRect validBoundRect() const;
 
     lmap<long long, lshared_ptr<LRenderNode>> m_RenderNodeMap;
     lshared_ptr<LRenderNode>                  m_RootNodePtr;

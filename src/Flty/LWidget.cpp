@@ -2,12 +2,23 @@
 
 #include <utility>
 
-#define SET_WIDGET_STYLE(type, setFunction, addNotifySetOfWnd) do { \
+#define SET_WIDGET_STYLE_ONE(type, setFunction, addNotifySetOfWnd) do { \
     lstyleTask task = [type](LStyleSheet& style)->void { \
         style.setFunction(type); \
     }; \
     m_StyledChangedQueue->write(task); \
     m_Style.setFunction(type);        \
+    if (m_AttachWnd) { \
+        m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
+    } \
+} while(0)
+
+#define SET_WIDGET_STYLE_TWO(type1, type2, setFunction, addNotifySetOfWnd) do { \
+    lstyleTask task = [type1, type2](LStyleSheet& style)->void { \
+        style.setFunction(type1, type2); \
+    }; \
+    m_StyledChangedQueue->write(task); \
+    m_Style.setFunction(type1, type2);        \
     if (m_AttachWnd) { \
         m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
     } \
@@ -47,22 +58,47 @@ void LWidget::addChildWidget(const lwidget_sptr& widget)
 
 void LWidget::setBackgroundColor(const SkColor& color)
 {
-    SET_WIDGET_STYLE(color, setBackgroundColor, addGraphicSet);
+    SET_WIDGET_STYLE_ONE(color, setBackgroundColor, addGraphicSet);
 }
 
-void LWidget::setSize(const SkSize& size)
+void LWidget::setFixedSize(const SkISize& size)
 {
-    SET_WIDGET_STYLE(size, setSize, addLayoutSet);
+    SET_WIDGET_STYLE_ONE(size, setFixedSize, addLayoutSet);
 }
 
-void LWidget::setPosition(const SkPoint &pt)
+void LWidget::setFixedWidth(int width)
 {
-    SET_WIDGET_STYLE(pt, setPos, addLayoutSet);
+    SET_WIDGET_STYLE_ONE(width, setFixedWidth, addLayoutSet);
+}
+
+void LWidget::setFixedHeight(int height)
+{
+    SET_WIDGET_STYLE_ONE(height, setFixedHeight, addLayoutSet);
+}
+
+void LWidget::setPosition(const SkIPoint &pt)
+{
+    SET_WIDGET_STYLE_ONE(pt, setPos, addLayoutSet);
 }
 
 void LWidget::setBox(LBoxType type)
 {
-    SET_WIDGET_STYLE(type, setBoxType, addLayoutSet);
+    SET_WIDGET_STYLE_ONE(type, setBoxType, addLayoutSet);
+}
+
+void LWidget::setMinSize(const SkISize& size)
+{
+    SET_WIDGET_STYLE_ONE(size, setMinSize, addLayoutSet);
+}
+
+void LWidget::setMaxSize(const SkISize& size)
+{
+    SET_WIDGET_STYLE_ONE(size, setMaxSize, addLayoutSet);
+}
+
+void LWidget::setSizePolicy(LSizePolicy widthPolicy, LSizePolicy heightPolicy)
+{
+    SET_WIDGET_STYLE_TWO(widthPolicy, heightPolicy, setSizePolicy, addLayoutSet);
 }
 
 void LWidget::setLayerIndex(const lshared_ptr<unsigned>& index)

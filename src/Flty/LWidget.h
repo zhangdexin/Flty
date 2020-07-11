@@ -20,17 +20,23 @@ public:
 
     // TODO: virtual
     virtual void setBackgroundColor(const SkColor& color);
-    virtual void setSize(const SkSize& size);
-    virtual void setPosition(const SkPoint& pt); // relative parent
+    virtual void setFixedSize(const SkISize& size); // fixed
+    virtual void setFixedWidth(int width); // fixed
+    virtual void setFixedHeight(int height); // fixed
+    virtual void setPosition(const SkIPoint& pt); // relative parent
     virtual void setPositon(int x, int y) {
-        setPosition(SkPoint::Make(x, y));
+        setPosition(SkIPoint::Make(x, y));
     }
     virtual void setBox(LBoxType type);
+    virtual void setMinSize(const SkISize& size);
+    virtual void setMaxSize(const SkISize& size);
+    virtual void setSizePolicy(LSizePolicy widthPolicy, LSizePolicy hegihtPolicy);
 
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {
             return *m_LayerIndexPtr.get();
         }
+        return 0;
     }
     virtual void setLayerIndex(const lshared_ptr<unsigned>& index);
 
