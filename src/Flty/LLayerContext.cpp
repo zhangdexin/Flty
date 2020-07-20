@@ -122,10 +122,7 @@ void LLayerContext::graphic()
     canvas->clear(SK_ColorWHITE);
 
     auto& style = m_RootNodePtr->m_Style;
-
-    SkPaint paint;
-    paint.setColor(style.backgroundColor());
-    canvas->drawIRect(style.boundingRect(), paint);
+    paintBody(style, canvas);
 
     if (m_RootNodePtr->m_Children.size() > 0) {
         doChildGraphic(canvas, m_RootNodePtr->m_Children[0]);
@@ -135,10 +132,7 @@ void LLayerContext::graphic()
 void LLayerContext::doChildGraphic(SkCanvas* canvas, const lshared_ptr<LRenderNode>& node)
 {
     const auto& style = node->m_Style;
-
-    SkPaint paint;
-    paint.setColor(style.backgroundColor());
-    canvas->drawIRect(style.boundingRect(), paint);
+    paintBody(style, canvas);
 
     auto& siblingNode = node->m_RightSibling;
     if (siblingNode) {
@@ -148,6 +142,36 @@ void LLayerContext::doChildGraphic(SkCanvas* canvas, const lshared_ptr<LRenderNo
     if (node->m_Children.size() > 0) {
         doChildGraphic(canvas, node->m_Children[0]);
     }
+}
+
+void LLayerContext::paintBody(const LStyleSheet& style, SkCanvas* canvas)
+{
+    auto border = style.border();
+    if (border.m_BStyle != LBorderStyle::None) {
+        SkPaint paint;
+        paint.setColor(style.backgroundColor());
+        canvas->drawIRect(style.boundingRect().makeInset(border.m_Width, border.m_Width), paint);
+
+        int inset = border.m_Width / 2;
+        paintBorder(border, paint);
+
+        SkIRect rt = style.boundingRect().makeInset(inset, inset);
+        SkRRect rrt = SkRRect::MakeRectXY(SkRect::Make(rt), border.m_BorderRadius, border.m_BorderRadius);
+        canvas->drawRRect(rrt, paint);
+    }
+    else {
+        SkPaint paint;
+        paint.setColor(style.backgroundColor());
+        canvas->drawIRect(style.boundingRect(), paint);
+    }
+}
+
+void LLayerContext::paintBorder(const LBorder& border, SkPaint& paint)
+{
+    paint.setAntiAlias(true);
+    paint.setStyle(SkPaint::kStroke_Style);
+    paint.setStrokeWidth(border.m_Width);
+    paint.setColor(border.m_BColor);
 }
 
 SkIRect LLayerContext::validBoundRect() const

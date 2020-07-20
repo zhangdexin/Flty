@@ -101,6 +101,27 @@ void LWidget::setSizePolicy(LSizePolicy widthPolicy, LSizePolicy heightPolicy)
     SET_WIDGET_STYLE_TWO(widthPolicy, heightPolicy, setSizePolicy, addLayoutSet);
 }
 
+void LWidget::setBorder(int width, LBorderStyle s, const SkColor& c)
+{
+    LBorder b = { width, s, c };
+    SET_WIDGET_STYLE_ONE(b, setBorder, addGraphicSet);
+}
+
+void LWidget::setBorderRadius(int radius)
+{
+    SET_WIDGET_STYLE_ONE(radius, setBorderRadius, addGraphicSet);
+}
+
+void LWidget::setMargin(const std::initializer_list<int>& lt)
+{
+    SET_WIDGET_STYLE_ONE(lt, setMargin, addLayoutSet);
+}
+
+void LWidget::setPadding(const std::initializer_list<int>& lt)
+{
+    SET_WIDGET_STYLE_ONE(lt, setPadding, addLayoutSet);
+}
+
 void LWidget::setLayerIndex(const lshared_ptr<unsigned>& index)
 {
     m_LayerIndexPtr = index;

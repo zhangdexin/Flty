@@ -19,20 +19,12 @@ private:
 
     void computeNoneBoxStyle(lshared_ptr<LRenderNode>& parent);
     void computeHorizontalStyle(lshared_ptr<LRenderNode>& parent);
+    int calcHorizontalBoxHeight(const LStyleSheet& style, int limitHeight);
+
     void computeVerticalStyle(lshared_ptr<LRenderNode>& parent);
+    int calcVerticalBoxWidth(const LStyleSheet& style, int limitWidth);
 
     void updateBounding(const SkIRect& parentBounding, LStyleSheet& style);
-    void doChildLayout(lshared_ptr<LRenderNode>& node);
-
-    
-
-    int computeHorizontalStyleOfAverage(LStyleSheet& style, int startOff, int everyWidth, int limitWidth, int limitHeight);
-    int computeHorizontalStyleOfHint(LStyleSheet& style, int startOff, int everyWidth, int limitWidth, int limitHeight);
-    void computeVerticalStyle(LStyleSheet& style, int index, int width, int childHeight);
-
-    SkISize computeSizeByPolicy(const LStyleSheet& style, const SkISize& limitSize);
-    ltuple<larray<int, LSizePolicy::Count>, int> getChildrenPolicyNumsAndExpandingSize(
-            const lshared_ptr<LRenderNode>& parent);
 
 private:
     lshared_ptr<LLayerContext> m_LayerContext;

@@ -31,6 +31,10 @@ public:
     virtual void setMinSize(const SkISize& size);
     virtual void setMaxSize(const SkISize& size);
     virtual void setSizePolicy(LSizePolicy widthPolicy, LSizePolicy hegihtPolicy);
+    virtual void setBorder(int width, LBorderStyle s, const SkColor& c);
+    virtual void setBorderRadius(int radius);
+    virtual void setMargin(const std::initializer_list<int>& lt);
+    virtual void setPadding(const std::initializer_list<int>& lt);
 
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {

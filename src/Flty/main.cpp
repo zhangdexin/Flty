@@ -23,20 +23,21 @@ int Main(void* platformData, int argc, lstring *argv)
     lwidget_sptr widget2{ new LWidget() };
 
     widget2->setBackgroundColor(SK_ColorGREEN);
-    //widget2->setFixedSize(SkISize::Make(300, 600));
-    //widget2->setPosition(SkIPoint::Make(100, 100));
-     
+
     widget1->setBackgroundColor(SK_ColorBLUE);
     widget1->setSizePolicy(LSizePolicy::Expanding, LSizePolicy::Expanding);
-    //widget1->setFixedSize(SkISize::Make(800, 100));
-    //widget1->setPosition(SkIPoint::Make(100, 120));
+    widget1->setBorder(2, LBorderStyle::Solid, SK_ColorBLACK);
+    widget1->setBorderRadius(8);
+    widget1->setMargin({10});
 
     widget->setBackgroundColor(SK_ColorRED);
     widget->setFixedSize(SkISize::Make(800, 600));
 
     widget->addChildWidget(widget1);
     widget->addChildWidget(widget2);
-    widget->setBox(LBoxType::None);
+    widget->setBox(LBoxType::Vertical);
+    widget->setBorder(12, LBorderStyle::Solid, SK_ColorBLACK);
+    widget->setPadding({10, 1, 20, 4});
     win->addRootChild(widget);
 
     win->show();
