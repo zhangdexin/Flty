@@ -156,7 +156,7 @@ void LLayerContext::paintBody(const LStyleSheet& style, SkCanvas* canvas)
         paintBorder(border, paint);
 
         SkIRect rt = style.boundingRect().makeInset(inset, inset);
-        SkRRect rrt = SkRRect::MakeRectXY(SkRect::Make(rt), border.m_BorderRadius, border.m_BorderRadius);
+        SkRRect rrt = SkRRect::MakeRectXY(SkRect::Make(rt), (SkScalar)border.m_BorderRadius, (SkScalar)border.m_BorderRadius);
         canvas->drawRRect(rrt, paint);
     }
     else {
@@ -170,7 +170,7 @@ void LLayerContext::paintBorder(const LBorder& border, SkPaint& paint)
 {
     paint.setAntiAlias(true);
     paint.setStyle(SkPaint::kStroke_Style);
-    paint.setStrokeWidth(border.m_Width);
+    paint.setStrokeWidth((SkScalar)border.m_Width);
     paint.setColor(border.m_BColor);
 }
 

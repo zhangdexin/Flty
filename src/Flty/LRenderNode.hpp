@@ -30,7 +30,7 @@ public:
     lvct_shared_ptr<LRenderNode> m_Children;
 
     LStyleSheet m_Style;
-    long long   m_Id;
+    int         m_Id;
     bool        m_LayoutChanged;
     bool        m_GraphicChangedByLayout;
     bool        m_GraphicChangedBySet;
