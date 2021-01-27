@@ -20,6 +20,7 @@
 #include <set>
 #include <map>
 
+
 // flty using
 using ltstring = std::wstring;
 using lstring = std::string;
@@ -43,6 +44,9 @@ using lset_shared_ptr = std::set<std::shared_ptr<T>>;
 
 template<typename K, typename V>
 using lmap = std::map<K, V>;
+
+template<typename K, typename V>
+using lunorder_map = std::unordered_map<K, V>;
 
 template<typename T>
 using lshared_ptr = std::shared_ptr<T>;

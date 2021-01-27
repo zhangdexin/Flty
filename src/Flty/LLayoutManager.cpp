@@ -5,8 +5,9 @@
 #include "LStyleSheet.h"
 #include "LWidget.h"
 
-LLayoutManager::LLayoutManager(const lshared_ptr<LLayerContext>& layer) :
-    m_LayerContext{ layer }
+LLayoutManager::LLayoutManager(const lshared_ptr<LLayerContext>& layer, WidgetSizeChangedFunc&& f) :
+    m_LayerContext{ layer },
+    m_sizeChangedCb(std::move(f))
 {}
 
 void LLayoutManager::needLayout(const lwidget_sptr& widget)
@@ -36,6 +37,7 @@ void LLayoutManager::layout()
     if (rootNode->m_LayoutChanged) {
         rootNode->m_Style.updateBoundingRect();
         rootNode->m_Style.updateContentRect();
+        m_sizeChangedCb(rootNode->m_Style, rootNode->m_Id);
     }
 
     auto& vct = rootNode->m_Children;
@@ -65,8 +67,9 @@ void LLayoutManager::computeNoneBoxStyle(lshared_ptr<LRenderNode>& parent)
     for (auto& node : children) {
         updateBounding(rt, node->m_Style);
         node->m_Style.updateContentRect();
-        node->setLayoutChanged(false);
+        m_sizeChangedCb(node->m_Style, node->m_Id);
 
+        node->setLayoutChanged(false);
         if (node->m_Children.size() > 0) {
             doLayout(node);
         }
@@ -109,6 +112,7 @@ void LLayoutManager::computeHorizontalStyle(lshared_ptr<LRenderNode>& parent)
         int height = calcHorizontalBoxHeight(style, limitHeight);
 
         style.setSize(SkISize::Make(width, height));
+        m_sizeChangedCb(style, node->m_Id);
     }
 
     // adjust expanding
@@ -127,6 +131,7 @@ void LLayoutManager::computeHorizontalStyle(lshared_ptr<LRenderNode>& parent)
                 // TODO: warning ignore min val
             }
             style.setSize(SkISize::Make(width, style.height()));
+            m_sizeChangedCb(style, node->m_Id);
 
             limitWidth -= width + mgHor;
             expandingNums--;
@@ -157,6 +162,7 @@ void LLayoutManager::computeHorizontalStyle(lshared_ptr<LRenderNode>& parent)
 
         style.setPos(SkIPoint::Make(startOff + margin.m_Left + adjustWidth / 2, top));
         updateBounding(parentRect, style);
+        m_sizeChangedCb(style, node->m_Id);
 
         doLayout(node);
         startOff += adjustWidth + style.width() + margin.m_Left + margin.m_Right;
@@ -231,6 +237,7 @@ void LLayoutManager::computeVerticalStyle(lshared_ptr<LRenderNode>& parent)
         int width = calcVerticalBoxWidth(style, limitWidth);
 
         style.setSize(SkISize::Make(width, height));
+        m_sizeChangedCb(style, node->m_Id);
     }
 
     // adjust expanding
@@ -249,6 +256,7 @@ void LLayoutManager::computeVerticalStyle(lshared_ptr<LRenderNode>& parent)
                 // TODO: warning ignore min val
             }
             style.setSize(SkISize::Make(style.width(), height));
+            m_sizeChangedCb(style, node->m_Id);
 
             limitHeight -= height + mgVer;
             expandingNums--;
@@ -279,13 +287,14 @@ void LLayoutManager::computeVerticalStyle(lshared_ptr<LRenderNode>& parent)
 
         style.setPos(SkIPoint::Make((limitWidth - style.width()) / 2, startOff + margin.m_Top + adjustHeight / 2));
         updateBounding(parentRect, style);
+        m_sizeChangedCb(style, node->m_Id);
 
         doLayout(node);
         startOff += adjustHeight + style.height() + margin.m_Top + margin.m_Bottom;
     }
 }
 
-int LLayoutManager::calcVerticalBoxWidth(const LStyleSheet & style, int limitWidth)
+int LLayoutManager::calcVerticalBoxWidth(const LStyleSheet& style, int limitWidth)
 {
     int width = style.width();
     auto&& widthPolicy = style.widthPolicy();
@@ -315,9 +324,6 @@ int LLayoutManager::calcVerticalBoxWidth(const LStyleSheet & style, int limitWid
     }
 
     return width;
-
-
-    return 0;
 }
 
 void LLayoutManager::updateBounding(const SkIRect& parentBounding, LStyleSheet& style)

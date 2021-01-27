@@ -325,7 +325,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     // Adjust for that, and make them window relative
                     LONG tx = (ti.x / 100) - topLeft.x;
                     LONG ty = (ti.y / 100) - topLeft.y;
-                    eventHandled = window->onTouch(ti.dwID, state, tx, ty) || eventHandled;
+                    eventHandled = window->onTouch(ti.dwID, state, (float)tx, (float)ty) || eventHandled;
                 }
             }
         } break;

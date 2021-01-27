@@ -8,8 +8,10 @@ class LLayerContext;
 class LRenderNode;
 class LLayoutManager
 {
+    using WidgetSizeChangedFunc = std::function<void(const LStyleSheet&, int)>;
+
 public:
-    LLayoutManager(const lshared_ptr<LLayerContext>& layer);
+    LLayoutManager(const lshared_ptr<LLayerContext>& layer, WidgetSizeChangedFunc&& f);
 
     void needLayout(const lwidget_sptr& widget);
     void layout();
@@ -27,7 +29,8 @@ private:
     void updateBounding(const SkIRect& parentBounding, LStyleSheet& style);
 
 private:
-    lshared_ptr<LLayerContext> m_LayerContext;
+    lshared_ptr<LLayerContext>      m_LayerContext;
+    WidgetSizeChangedFunc           m_sizeChangedCb;
 };
 
 #endif // __LLAYOUTMANAGER_H__

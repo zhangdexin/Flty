@@ -18,8 +18,8 @@ public:
 
     void addRootNode(const lwidget_sptr& widget);
     void addChildNode(const lwidget_sptr& widget);
-    loptional<lshared_ptr<LRenderNode>> node(long long id);
-    void appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, long long parentId);
+    loptional<lshared_ptr<LRenderNode>> node(int id);
+    void appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, int parentId);
 
     void graphic();
     void doChildGraphic(SkCanvas *canvas, const lshared_ptr<LRenderNode>& node);
@@ -28,7 +28,7 @@ public:
 
     SkIRect validBoundRect() const;
 
-    lmap<long long, lshared_ptr<LRenderNode>> m_RenderNodeMap;
+    lmap<int, lshared_ptr<LRenderNode>>       m_RenderNodeMap;
     lshared_ptr<LRenderNode>                  m_RootNodePtr;
     lshared_ptr<unsigned>                     m_LayerIndexPtr;
     sk_sp<SkSurface>                          m_Surface;

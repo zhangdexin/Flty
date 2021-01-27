@@ -37,6 +37,22 @@ void LWindow::onBackendCreated()
     m_WindowPtr->setTitle(u8"mainwidnow");
 }
 
+bool LWindow::onMouse(int x, int y, skui::InputState inputState, skui::ModifierKey modifierKey)
+{
+    if (modifierKey != skui::ModifierKey::kNone) {
+        return false;
+    }
+
+    SkIPoint pt = SkIPoint::Make(x, y);
+    bool isHandled = false;
+    int size = m_Roots.size();
+    for (int i = size - 1; i > 0 && !isHandled; --i) {
+        //m_Roots[i]->
+    }
+
+    return isHandled;
+}
+
 void LWindow::onIdle()
 {
     lApp->postTaskToRenderThread(std::bind(&LWindow::doRender, this));
@@ -70,10 +86,11 @@ void LWindow::addRootChild(const lwidget_sptr& widget)
     if (widget->parent()) {
         return;
     }
-    m_Roots.push_back(std::move(widget));
     widget->setAttachWnd(shared_from_this());
+    m_Roots.push_back(widget);
+    storeWidgets(widget);
 
-    lApp->postTaskToRenderThread([this, widget, 
+    lApp->postTaskToRenderThread([this, widget,
                                   context = std::make_shared<LLayerContext>(widget)]() {
 
         m_LayerContexts.emplace_back(std::move(context));
@@ -81,7 +98,11 @@ void LWindow::addRootChild(const lwidget_sptr& widget)
         auto &&backLayer = m_LayerContexts.back();
         backLayer->setLayerIndex(m_LayerContexts.size() - 1);
 
-        m_LayoutMgrs.emplace_back(std::make_shared<LLayoutManager>(backLayer));
+        using std::placeholders::_1;
+        using std::placeholders::_2;
+
+        m_LayoutMgrs.emplace_back(
+            std::make_shared<LLayoutManager>(backLayer, std::bind(&LWindow::onWidgetSizeChanged, this, _1, _2)));
         widget->setLayerIndex(backLayer->m_LayerIndexPtr);
 
         m_LayoutWidgetSet.insert(widget);
@@ -95,6 +116,7 @@ void LWindow::onChildWidgetAdd(const lwidget_sptr& widget)
     if (parent == nullptr) {
         return;
     }
+    storeWidgets(widget);
 
     lApp->postTaskToRenderThread([this, widget, layerIndex = parent->layerIndex(),
                                   parentId = parent->m_WidgetId, wid = widget->m_WidgetId,
@@ -104,6 +126,17 @@ void LWindow::onChildWidgetAdd(const lwidget_sptr& widget)
         m_LayoutWidgetSet.insert(widget);
         m_GraphicWidgetSet.insert(widget);
     });
+}
+
+void LWindow::storeWidgets(const lwidget_sptr& widget)
+{
+    if (m_Widgets.find(widget->m_WidgetId) == m_Widgets.end()) {
+        m_Widgets.emplace(widget->m_WidgetId, widget);
+    }
+
+    for (auto child : widget->children()) {
+        storeWidgets(child);
+    }
 }
 
 void LWindow::addLayoutSet(const lwidget_sptr& widget)
@@ -118,6 +151,16 @@ void LWindow::addGraphicSet(const lwidget_sptr& widget)
 {
     lApp->postTaskToRenderThread([this, widget]() {
         m_GraphicWidgetSet.insert(widget);
+    });
+}
+
+void LWindow::onWidgetSizeChanged(const LStyleSheet& style, int id)
+{
+    lApp->postTaskToMainThread([this, id, style]() {
+        if (m_Widgets.find(id) != m_Widgets.end()) {
+            m_Widgets[id]->m_Style.setPos(style.pos());
+            m_Widgets[id]->m_Style.setSize(style.size());
+        }
     });
 }
 

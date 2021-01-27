@@ -56,10 +56,11 @@ public:
     void setAttachWnd(const lwindow_sptr& window);
 
     lwidget_sptr parent() const { return m_ParentPtr; }
+    lvct_shared_ptr<LWidget> children() const { return m_ChildWidgets; }
 
 public:
     LStyleSheet                 m_Style;
-    const long long             m_WidgetId;
+    const int                   m_WidgetId;
 
     using lstyle_queue_ptr = lshared_ptr<nvwa::fc_queue<lstyleTask>>;
     lstyle_queue_ptr            m_StyledChangedQueue;

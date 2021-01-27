@@ -11,7 +11,7 @@ class LRenderNode
 {
 public:
     LRenderNode() = default;
-    LRenderNode(long long id) :
+    LRenderNode(int id) :
         m_Id{ id },
         m_LayoutChanged{ true },
         m_GraphicChangedByLayout{ false },
@@ -19,7 +19,7 @@ public:
     {}
 
     PACK_SET_MEMBER(LRenderNode, m_Style, LStyleSheet, setStyle);
-    PACK_SET_MEMBER(LRenderNode, m_Id, long long, setId);
+    PACK_SET_MEMBER(LRenderNode, m_Id, int, setId);
     PACK_SET_MEMBER(LRenderNode, m_LayoutChanged, bool, setLayoutChanged);
     PACK_SET_MEMBER(LRenderNode, m_GraphicChangedByLayout, bool, setGraphicChangedByLayout);
     PACK_SET_MEMBER(LRenderNode, m_GraphicChangedBySet, bool, setGraphicChangedBySet);

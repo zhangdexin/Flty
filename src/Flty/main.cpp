@@ -10,10 +10,6 @@
 #include "SkColor.h"
 #include "LApplication.h"
 
-#include <process.h>
-#include <bcrypt.h>
-#include <TlHelp32.h>
-#include <Psapi.h>
 
 int Main(void* platformData, int argc, lstring *argv)
 {
@@ -35,7 +31,7 @@ int Main(void* platformData, int argc, lstring *argv)
 
     widget->addChildWidget(widget1);
     widget->addChildWidget(widget2);
-    widget->setBox(LBoxType::Vertical);
+    widget->setBox(LBoxType::Horizontal);
     widget->setBorder(12, LBorderStyle::Solid, SK_ColorBLACK);
     widget->setPadding({10, 1, 20, 4});
     win->addRootChild(widget);

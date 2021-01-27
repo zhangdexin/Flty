@@ -87,7 +87,7 @@ void LLayerContext::addChildNode(const lwidget_sptr& widget)
     }
 }
 
-loptional<lshared_ptr<LRenderNode>> LLayerContext::node(long long id)
+loptional<lshared_ptr<LRenderNode>> LLayerContext::node(int id)
 {
     if (m_RenderNodeMap.find(id) != m_RenderNodeMap.end()) {
         return m_RenderNodeMap[id];
@@ -95,7 +95,7 @@ loptional<lshared_ptr<LRenderNode>> LLayerContext::node(long long id)
     return std::nullopt;
 }
 
-void LLayerContext::appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, long long parentId)
+void LLayerContext::appendLayerContextNode(const lshared_ptr<LLayerContext>& contextPtr, int parentId)
 {
     auto iter = m_RenderNodeMap.find(parentId);
     if (iter != m_RenderNodeMap.end()) {

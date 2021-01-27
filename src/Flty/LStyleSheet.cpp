@@ -10,7 +10,7 @@ void LStyleSheet::setSize(const SkISize& size)
     m_Size = size;
 }
 
-void LStyleSheet::setPos(const SkIPoint & point)
+void LStyleSheet::setPos(const SkIPoint& point)
 {
     m_Pos = point;
 }

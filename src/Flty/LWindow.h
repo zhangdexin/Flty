@@ -8,6 +8,7 @@ class LWidget;
 class LLayoutManager;
 class LLayerContext;
 class LGraphicManager;
+class LStyleSheet;
 class LWindow : public SkWindow::Layer, public std::enable_shared_from_this<LWindow>
 {
 public:
@@ -16,6 +17,7 @@ public:
 
     virtual void onPaint(SkSurface* surface);
     virtual void onBackendCreated();
+    virtual bool onMouse(int x, int y, skui::InputState inputState, skui::ModifierKey modifierKey);
 
     void onIdle();
     void onResize(int width, int height);
@@ -24,6 +26,7 @@ public:
     void setTitle(const char* text);
     void addRootChild(const lwidget_sptr& widget);
     void onChildWidgetAdd(const lwidget_sptr& widget);
+    void storeWidgets(const lwidget_sptr& widget);
 
     void doRender();
     void layout();
@@ -31,6 +34,8 @@ public:
 
     void addLayoutSet(const lwidget_sptr& widget);
     void addGraphicSet(const lwidget_sptr& widget);
+
+    void onWidgetSizeChanged(const LStyleSheet& style, int id);
 
 private:
     lunique_ptr<sk_app::Window>     m_WindowPtr;
@@ -43,7 +48,9 @@ private:
     lvct_shared_ptr<LLayerContext>  m_LayerContexts;
     lunique_ptr<LGraphicManager>    m_GraphicMgr;
     sk_sp<SkImage>                  m_Image;
+
     lvct_shared_ptr<LWidget>        m_Roots;
+    lunorder_map<int, lwidget_sptr> m_Widgets;
 };
 
 #endif // __LWINDOW_H__

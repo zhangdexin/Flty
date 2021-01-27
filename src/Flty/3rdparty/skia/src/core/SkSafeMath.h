@@ -23,7 +23,7 @@ public:
     explicit operator bool() const { return fOK; }
 
     size_t mul(size_t x, size_t y) {
-        return sizeof(size_t) == sizeof(uint64_t) ? mul64(x, y) : mul32(x, y);
+        return sizeof(size_t) == sizeof(uint64_t) ? (size_t)mul64(x, y) : (size_t)mul32(x, y);
     }
 
     size_t add(size_t x, size_t y) {
@@ -73,7 +73,7 @@ private:
         uint64_t by = y;
         uint64_t result = bx * by;
         fOK &= result >> 32 == 0;
-        return result;
+        return (uint32_t)result;
     }
 
     uint64_t mul64(uint64_t x, uint64_t y) {
@@ -89,8 +89,8 @@ private:
             uint64_t lx_hy = lo(x) * hi(y);
             uint64_t hx_hy = hi(x) * hi(y);
             uint64_t result = 0;
-            result = this->add(lx_ly, (hx_ly << 32));
-            result = this->add(result, (lx_hy << 32));
+            result = this->add((size_t)lx_ly, (size_t)(hx_ly << 32));
+            result = this->add((size_t)result, (size_t)(lx_hy << 32));
             fOK &= (hx_hy + (hx_ly >> 32) + (lx_hy >> 32)) == 0;
 
             #if defined(SK_DEBUG) && defined(__clang__) && defined(__x86_64__)

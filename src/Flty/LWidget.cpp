@@ -7,7 +7,7 @@
         style.setFunction(type); \
     }; \
     m_StyledChangedQueue->write(task); \
-    m_Style.setFunction(type);        \
+    m_Style.setFunction(type);         \
     if (m_AttachWnd) { \
         m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
     } \
@@ -24,7 +24,7 @@
     } \
 } while(0)
 
-static long long s_IdGetter = 0;
+static int s_IdGetter = 0;
 
 LWidget::LWidget() :
     m_WidgetId {s_IdGetter++},

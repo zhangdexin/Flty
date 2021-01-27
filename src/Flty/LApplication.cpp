@@ -41,7 +41,7 @@ void LApplication::postTaskToMainThread(const lclosure& closure)
     }
 }
 
-void LApplication::postTaskToRenderThread(const lclosure & closure)
+void LApplication::postTaskToRenderThread(const lclosure& closure)
 {
     m_ReanderThread.message_loop()->PostTask(closure);
 }
@@ -52,12 +52,6 @@ int LApplication::exec()
         m_PreExecQueue.front()();
         m_PreExecQueue.pop();
     }
-
-    m_ReanderThread.message_loop()->PostTask([this]() {
-        for (auto& item : m_WindowVct) {
-            item->doRender();
-        }
-    });
 
     m_MainThread.RunOnCurrentThreadWithLoop(nbase::MessageLoop::kUIMessageLoop, this);
     return 0;
