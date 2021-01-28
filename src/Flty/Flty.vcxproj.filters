@@ -19,12 +19,6 @@
     <Filter Include="base\callback">
       <UniqueIdentifier>{52970dd8-e116-42bf-b85b-26274aad0bc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="base\encrypt">
-      <UniqueIdentifier>{9e2e05bf-789a-401d-ae6c-bfe7f858ac2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="base\file">
-      <UniqueIdentifier>{fe6f2de8-c81d-4911-83f3-8fb3280975bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="base\memory">
       <UniqueIdentifier>{f804e91e-9b62-49e3-a38b-9cbff7e18b1e}</UniqueIdentifier>
     </Filter>
@@ -90,18 +84,6 @@
     <ClCompile Include="base\framework\win_ui_message_pump.cpp">
       <Filter>base\framework</Filter>
     </ClCompile>
-    <ClCompile Include="base\encrypt\des.cpp">
-      <Filter>base\encrypt</Filter>
-    </ClCompile>
-    <ClCompile Include="base\file\file_util.cpp">
-      <Filter>base\file</Filter>
-    </ClCompile>
-    <ClCompile Include="base\file\file_util_posix.cpp">
-      <Filter>base\file</Filter>
-    </ClCompile>
-    <ClCompile Include="base\file\file_util_win.cpp">
-      <Filter>base\file</Filter>
-    </ClCompile>
     <ClCompile Include="base\synchronization\lock_posix.cpp">
       <Filter>base\synchronization</Filter>
     </ClCompile>
@@ -166,9 +148,6 @@
       <Filter>base\util</Filter>
     </ClCompile>
     <ClCompile Include="base\win32\object_watcher.cpp">
-      <Filter>base\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="base\win32\path_util.cpp">
       <Filter>base\win32</Filter>
     </ClCompile>
     <ClCompile Include="base\win32\platform_string_util.cpp">
@@ -290,21 +269,6 @@
     <ClInclude Include="base\callback\callback.h">
       <Filter>base\callback</Filter>
     </ClInclude>
-    <ClInclude Include="base\encrypt\des.h">
-      <Filter>base\encrypt</Filter>
-    </ClInclude>
-    <ClInclude Include="base\encrypt\encrypt.h">
-      <Filter>base\encrypt</Filter>
-    </ClInclude>
-    <ClInclude Include="base\encrypt\encrypt_impl.h">
-      <Filter>base\encrypt</Filter>
-    </ClInclude>
-    <ClInclude Include="base\file\file_path.h">
-      <Filter>base\file</Filter>
-    </ClInclude>
-    <ClInclude Include="base\file\file_util.h">
-      <Filter>base\file</Filter>
-    </ClInclude>
     <ClInclude Include="base\memory\blockbuffer.h">
       <Filter>base\memory</Filter>
     </ClInclude>
@@ -375,9 +339,6 @@
       <Filter>base\util</Filter>
     </ClInclude>
     <ClInclude Include="base\win32\object_watcher.h">
-      <Filter>base\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="base\win32\path_util.h">
       <Filter>base\win32</Filter>
     </ClInclude>
     <ClInclude Include="base\win32\platform_string_util.h">
@@ -487,9 +448,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="base\framework\readme.txt">
-      <Filter>base\framework</Filter>
-    </Text>
     <Text Include="base\third_party\modp_b64\Readme.txt">
       <Filter>base\third_party</Filter>
     </Text>

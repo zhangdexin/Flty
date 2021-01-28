@@ -181,10 +181,6 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="3rdparty\skia\tools\sk_app\Window.cpp" />
     <ClCompile Include="3rdparty\skia\tools\sk_app\win\GLWindowContext_win.cpp" />
     <ClCompile Include="3rdparty\skia\tools\sk_app\win\Window_win.cpp" />
-    <ClCompile Include="base\encrypt\des.cpp" />
-    <ClCompile Include="base\file\file_util.cpp" />
-    <ClCompile Include="base\file\file_util_posix.cpp" />
-    <ClCompile Include="base\file\file_util_win.cpp" />
     <ClCompile Include="base\framework\default_message_pump.cpp" />
     <ClCompile Include="base\framework\message_loop.cpp" />
     <ClCompile Include="base\framework\message_loop_proxy.cpp" />
@@ -217,7 +213,6 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="base\util\string_number_conversions.cpp" />
     <ClCompile Include="base\util\string_util.cpp" />
     <ClCompile Include="base\win32\object_watcher.cpp" />
-    <ClCompile Include="base\win32\path_util.cpp" />
     <ClCompile Include="base\win32\platform_string_util.cpp" />
     <ClCompile Include="base\win32\security_util.cpp" />
     <ClCompile Include="base\win32\shared_memory.cpp" />
@@ -248,13 +243,8 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\c++_features.h" />
     <ClInclude Include="base\callback\callback.h" />
     <ClInclude Include="base\compiler_specific.h" />
-    <ClInclude Include="base\encrypt\des.h" />
-    <ClInclude Include="base\encrypt\encrypt.h" />
-    <ClInclude Include="base\encrypt\encrypt_impl.h" />
     <ClInclude Include="base\error.h" />
     <ClInclude Include="base\fc_queue.h" />
-    <ClInclude Include="base\file\file_path.h" />
-    <ClInclude Include="base\file\file_util.h" />
     <ClInclude Include="base\framework\default_message_pump.h" />
     <ClInclude Include="base\framework\message_loop.h" />
     <ClInclude Include="base\framework\message_loop_proxy.h" />
@@ -297,7 +287,6 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\util\unicode.h" />
     <ClInclude Include="base\util\valuemap.h" />
     <ClInclude Include="base\win32\object_watcher.h" />
-    <ClInclude Include="base\win32\path_util.h" />
     <ClInclude Include="base\win32\platform_string_util.h" />
     <ClInclude Include="base\win32\scoped_win_handle.h" />
     <ClInclude Include="base\win32\security_util.h" />
@@ -320,7 +309,6 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="WidgetType.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="base\framework\readme.txt" />
     <Text Include="base\third_party\convert_utf\readme.txt" />
     <Text Include="base\third_party\modp_b64\Readme.txt" />
   </ItemGroup>
