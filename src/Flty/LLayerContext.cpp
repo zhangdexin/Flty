@@ -1,7 +1,7 @@
 #include "LLayerContext.h"
 
 #include "SkSurface.h"
-#include "LLayerContext.h"
+#include "include/core/SkFont.h"
 
 LLayerContext::LLayerContext(const lwidget_sptr& widget)
 {
@@ -164,6 +164,10 @@ void LLayerContext::paintBody(const LStyleSheet& style, SkCanvas* canvas)
         paint.setColor(style.backgroundColor());
         canvas->drawIRect(style.boundingRect(), paint);
     }
+
+    if (!style.text().empty()) {
+        paintText(style, canvas);
+    }
 }
 
 void LLayerContext::paintBorder(const LBorder& border, SkPaint& paint)
@@ -172,6 +176,25 @@ void LLayerContext::paintBorder(const LBorder& border, SkPaint& paint)
     paint.setStyle(SkPaint::kStroke_Style);
     paint.setStrokeWidth((SkScalar)border.m_Width);
     paint.setColor(border.m_BColor);
+}
+
+void LLayerContext::paintText(const LStyleSheet& style, SkCanvas* canvas)
+{
+    auto text = style.text();
+
+    SkFont font;
+    font.setSize(14);
+
+    SkRect bound;
+    font.measureText(text.c_str(), text.size(), SkTextEncoding::kUTF8, &bound);
+
+    auto contectRt = style.contentRect();
+    int x = contectRt.fLeft + (contectRt.width() - (int)bound.width()) / 2;
+    int y = contectRt.fTop + (contectRt.height() - (int)bound.height()) / 2 + (int)bound.height();
+
+    SkPaint paint;
+    paint.setColor(style.textColor());
+    canvas->drawString(text.c_str(), (SkScalar)x, (SkScalar)y, font, paint);
 }
 
 SkIRect LLayerContext::validBoundRect() const

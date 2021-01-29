@@ -162,6 +162,7 @@ void LLayoutManager::computeHorizontalStyle(lshared_ptr<LRenderNode>& parent)
 
         style.setPos(SkIPoint::Make(startOff + margin.m_Left + adjustWidth / 2, top));
         updateBounding(parentRect, style);
+        style.updateContentRect();
         m_sizeChangedCb(style, node->m_Id);
 
         doLayout(node);
@@ -287,6 +288,7 @@ void LLayoutManager::computeVerticalStyle(lshared_ptr<LRenderNode>& parent)
 
         style.setPos(SkIPoint::Make((limitWidth - style.width()) / 2, startOff + margin.m_Top + adjustHeight / 2));
         updateBounding(parentRect, style);
+        style.updateContentRect();
         m_sizeChangedCb(style, node->m_Id);
 
         doLayout(node);

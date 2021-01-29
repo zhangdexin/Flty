@@ -9,6 +9,9 @@ class LLabel: public LWidget
 public:
     LLabel();
 
+    void setText(const lstring& text);
+    void setTextColor(const SkColor& color);
+
     virtual lstring className() const {
         return u8"llabel";
     }
@@ -16,7 +19,6 @@ public:
     virtual WidgetType type() const {
         return WidgetType::Label;
     }
-
 };
 
 #endif // __LLABEL_H__

@@ -9,6 +9,28 @@
 #include "LWindow.h"
 #include "base/fc_queue.h"
 
+#define SET_WIDGET_STYLE_ONE(type, setFunction, addNotifySetOfWnd) do { \
+    lstyleTask task = [type](LStyleSheet& style)->void { \
+        style.setFunction(type); \
+    }; \
+    m_StyledChangedQueue->write(task); \
+    m_Style.setFunction(type);         \
+    if (m_AttachWnd) { \
+        m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
+    } \
+} while(0)
+
+#define SET_WIDGET_STYLE_TWO(type1, type2, setFunction, addNotifySetOfWnd) do { \
+    lstyleTask task = [type1, type2](LStyleSheet& style)->void { \
+        style.setFunction(type1, type2); \
+    }; \
+    m_StyledChangedQueue->write(task); \
+    m_Style.setFunction(type1, type2);        \
+    if (m_AttachWnd) { \
+        m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
+    } \
+} while(0)
+
 class LWidget : public std::enable_shared_from_this<LWidget>
 {
 public:
@@ -18,23 +40,22 @@ public:
     virtual void addChildWidget(const lwidget_sptr& widget);
     virtual lvct_shared_ptr<LWidget> children() { return m_ChildWidgets; }
 
-    // TODO: virtual
-    virtual void setBackgroundColor(const SkColor& color);
-    virtual void setFixedSize(const SkISize& size); // fixed
-    virtual void setFixedWidth(int width); // fixed
-    virtual void setFixedHeight(int height); // fixed
-    virtual void setPosition(const SkIPoint& pt); // relative parent
-    virtual void setPositon(int x, int y) {
+    void setBackgroundColor(const SkColor& color);
+    void setFixedSize(const SkISize& size); // fixed
+    void setFixedWidth(int width); // fixed
+    void setFixedHeight(int height); // fixed
+    void setPosition(const SkIPoint& pt); // relative parent
+    void setPositon(int x, int y) {
         setPosition(SkIPoint::Make(x, y));
     }
-    virtual void setBox(LBoxType type);
-    virtual void setMinSize(const SkISize& size);
-    virtual void setMaxSize(const SkISize& size);
-    virtual void setSizePolicy(LSizePolicy widthPolicy, LSizePolicy hegihtPolicy);
-    virtual void setBorder(int width, LBorderStyle s, const SkColor& c);
-    virtual void setBorderRadius(int radius);
-    virtual void setMargin(const std::initializer_list<int>& lt);
-    virtual void setPadding(const std::initializer_list<int>& lt);
+    void setBox(LBoxType type);
+    void setMinSize(const SkISize& size);
+    void setMaxSize(const SkISize& size);
+    void setSizePolicy(LSizePolicy widthPolicy, LSizePolicy hegihtPolicy);
+    void setBorder(int width, LBorderStyle s, const SkColor& c);
+    void setBorderRadius(int radius);
+    void setMargin(const std::initializer_list<int>& lt);
+    void setPadding(const std::initializer_list<int>& lt);
 
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {

@@ -60,6 +60,9 @@ using larray = std::array<T, _Size>;
 class LWidget;
 using lwidget_sptr = lshared_ptr<LWidget>;
 
+class LLabel;
+using llabel_sptr = lshared_ptr<LLabel>;
+
 class LWindow;
 using lwindow_sptr = lshared_ptr<LWindow>;
 

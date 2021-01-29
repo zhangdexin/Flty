@@ -2,28 +2,6 @@
 
 #include <utility>
 
-#define SET_WIDGET_STYLE_ONE(type, setFunction, addNotifySetOfWnd) do { \
-    lstyleTask task = [type](LStyleSheet& style)->void { \
-        style.setFunction(type); \
-    }; \
-    m_StyledChangedQueue->write(task); \
-    m_Style.setFunction(type);         \
-    if (m_AttachWnd) { \
-        m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
-    } \
-} while(0)
-
-#define SET_WIDGET_STYLE_TWO(type1, type2, setFunction, addNotifySetOfWnd) do { \
-    lstyleTask task = [type1, type2](LStyleSheet& style)->void { \
-        style.setFunction(type1, type2); \
-    }; \
-    m_StyledChangedQueue->write(task); \
-    m_Style.setFunction(type1, type2);        \
-    if (m_AttachWnd) { \
-        m_AttachWnd->addNotifySetOfWnd(shared_from_this()); \
-    } \
-} while(0)
-
 static int s_IdGetter = 0;
 
 LWidget::LWidget() :

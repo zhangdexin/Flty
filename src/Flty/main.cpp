@@ -16,9 +16,10 @@ int Main(void* platformData, int argc, lstring *argv)
     lwindow_sptr win = std::make_shared<LWindow>(platformData);
     lwidget_sptr widget{ new LWidget() };
     lwidget_sptr widget1{ new LWidget() };
-    lwidget_sptr widget2{ new LWidget() };
+    llabel_sptr widget2{ new LLabel() };
 
     widget2->setBackgroundColor(SK_ColorGREEN);
+    widget2->setText("12345678910");
 
     widget1->setBackgroundColor(SK_ColorBLUE);
     widget1->setSizePolicy(LSizePolicy::Expanding, LSizePolicy::Expanding);

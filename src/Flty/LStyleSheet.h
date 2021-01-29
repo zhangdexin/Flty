@@ -1,6 +1,8 @@
 #ifndef __LSTYLESHEET_H__
 #define __LSTYLESHEET_H__
 
+#include "Defines.hpp"
+
 #include "include/core/SkColor.h"
 #include "include/core/SkSize.h"
 #include "include/core/SkRect.h"
@@ -76,6 +78,7 @@ constexpr SkIPoint pos = SkIPoint::Make(0, 0);
 constexpr LBoxType boxType = LBoxType::None;
 constexpr LSizePolicy sizePolicy = LSizePolicy::Hint;
 constexpr LSizeFixed sieFixed = LSizeFixed::NoneFixed;
+constexpr SkColor textColor = SK_ColorBLACK;
 
 }
 
@@ -105,6 +108,8 @@ public:
     void setBorderRadius(int radius);
     void setMargin(const std::initializer_list<int>& lt);
     void setPadding(const std::initializer_list<int>& lt);
+    void setText(const lstring& text);
+    void setTextColor(const SkColor& color);
 
     int width() const {
         return m_Size.width();
@@ -170,6 +175,14 @@ public:
         return m_Margin;
     }
 
+    lstring text() const {
+        return m_Text;
+    }
+
+    SkColor textColor() const {
+        return m_TextColor;
+    }
+
     void updateContentRect();
     void updateBoundingRect();
     void updateBoundingRectByOffset(const SkIPoint& pos);
@@ -190,6 +203,8 @@ private:
     LBorder     m_Border;
     LMargin     m_Margin;
     LPadding    m_Padding;
+    std::string m_Text;
+    SkColor     m_TextColor = DefaultStyle::textColor;
 };
 
 //};

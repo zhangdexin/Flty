@@ -6,6 +6,7 @@
 #include "LRenderNode.hpp"
 
 class SkCanvas;
+class SkFont;
 class LStyleSheet;
 class LLayerContext
 {
@@ -25,6 +26,7 @@ public:
     void doChildGraphic(SkCanvas *canvas, const lshared_ptr<LRenderNode>& node);
     void paintBody(const LStyleSheet& style, SkCanvas* canvas);
     void paintBorder(const LBorder& border, SkPaint& paint);
+    void paintText(const LStyleSheet& style, SkCanvas* canvas);
 
     SkIRect validBoundRect() const;
 

@@ -109,6 +109,16 @@ void LStyleSheet::setPadding(const std::initializer_list<int>& lt)
     }
 }
 
+void LStyleSheet::setText(const lstring& text)
+{
+    m_Text = text;
+}
+
+void LStyleSheet::setTextColor(const SkColor& color)
+{
+    m_TextColor = color;
+}
+
 void LStyleSheet::updateContentRect()
 {
     int bWidth = m_Border.m_Width;
