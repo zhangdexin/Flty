@@ -16,10 +16,13 @@ int Main(void* platformData, int argc, lstring *argv)
     lwindow_sptr win = std::make_shared<LWindow>(platformData);
     lwidget_sptr widget{ new LWidget() };
     lwidget_sptr widget1{ new LWidget() };
-    llabel_sptr widget2{ new LLabel() };
+    llabel_sptr label{ new LLabel() };
 
-    widget2->setBackgroundColor(SK_ColorGREEN);
-    widget2->setText("12345678910");
+    label->setBackgroundColor(SK_ColorGREEN);
+    label->setText("12345678910");
+    label->addClickAction([]() {
+        std::cout << "label click" << std::endl;
+    });
 
     widget1->setBackgroundColor(SK_ColorBLUE);
     widget1->setSizePolicy(LSizePolicy::Expanding, LSizePolicy::Expanding);
@@ -31,7 +34,7 @@ int Main(void* platformData, int argc, lstring *argv)
     widget->setFixedSize(SkISize::Make(800, 600));
 
     widget->addChildWidget(widget1);
-    widget->addChildWidget(widget2);
+    widget->addChildWidget(label);
     widget->setBox(LBoxType::Horizontal);
     widget->setBorder(12, LBorderStyle::Solid, SK_ColorBLACK);
     widget->setPadding({10, 1, 20, 4});

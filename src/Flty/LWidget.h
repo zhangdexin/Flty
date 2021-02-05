@@ -31,10 +31,13 @@
     } \
 } while(0)
 
+class LMouseEvent;
+class LEvent;
 class LWidget : public std::enable_shared_from_this<LWidget>
 {
 public:
     LWidget();
+    ~LWidget();
 
     void init();
     virtual void addChildWidget(const lwidget_sptr& widget);
@@ -65,10 +68,6 @@ public:
     }
     virtual void setLayerIndex(const lshared_ptr<unsigned>& index);
 
-    virtual lstring className() const {
-        return u8"lwidget";
-    }
-
     virtual WidgetType type() const{
         return WidgetType::Widget;
     }
@@ -78,6 +77,15 @@ public:
 
     lwidget_sptr parent() const { return m_ParentPtr; }
     lvct_shared_ptr<LWidget> children() const { return m_ChildWidgets; }
+
+    virtual bool event(const lshared_ptr<LEvent>& ev); // return is handled
+    virtual bool mousePressEvent(const lshared_ptr<LMouseEvent>& ev);  // left
+    virtual bool mouseReleaseEvent(const lshared_ptr<LMouseEvent>& ev); // left
+
+    bool isContainsPt(const SkIPoint& pt) const;
+
+protected:
+    bool dispatchMouseEvent(const lshared_ptr<LMouseEvent>& ev);
 
 public:
     LStyleSheet                 m_Style;

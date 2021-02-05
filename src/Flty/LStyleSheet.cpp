@@ -139,4 +139,5 @@ void LStyleSheet::updateBoundingRectByOffset(const SkIPoint& pos)
 {
     updateBoundingRect();
     m_BoundingRect.offset(pos);
+    m_Pos.set(m_BoundingRect.fLeft, m_BoundingRect.fTop);
 }

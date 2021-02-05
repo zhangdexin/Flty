@@ -2,11 +2,17 @@
 
 #include <utility>
 
+#include "LEvent.hpp"
+#include "LMouseEvent.h"
+
 static int s_IdGetter = 0;
 
 LWidget::LWidget() :
     m_WidgetId {s_IdGetter++},
     m_StyledChangedQueue{std::make_shared<nvwa::fc_queue<lstyleTask>>(200)}
+{}
+
+LWidget::~LWidget()
 {}
 
 void LWidget::init()
@@ -114,4 +120,80 @@ void LWidget::setAttachWnd(const lwindow_sptr& window)
     for (auto& item : m_ChildWidgets) {
         item->setAttachWnd(window);
     }
+}
+
+bool LWidget::event(const lshared_ptr<LEvent>& ev)
+{
+    auto doHandle = [ev, this](lshared_ptr<LWidget> child_ptr) ->bool {
+        auto evType = ev->type();
+        switch (evType) {
+        case LEvent::MouseEvent:
+        {
+            const lshared_ptr<LMouseEvent> mouseEv = std::dynamic_pointer_cast<LMouseEvent>(ev);
+            if (!child_ptr) {
+                return dispatchMouseEvent(mouseEv);
+            }
+
+            if (child_ptr->isContainsPt(mouseEv->pos())) {
+                return child_ptr->event(ev);
+            }
+        }
+
+        case LEvent::KeyEvent:
+            break;
+
+        default:
+            break;
+        }
+
+        return false;
+    };
+
+    int size = m_ChildWidgets.size();
+    bool isHandled = false;
+    for (int i = size - 1; i >= 0 && !isHandled; --i) {
+        isHandled = doHandle(m_ChildWidgets.at(i));
+    }
+
+    if (size == 0 || !isHandled) {
+        return doHandle(nullptr);
+    }
+
+    return true;
+}
+
+bool LWidget::dispatchMouseEvent(const lshared_ptr<LMouseEvent>& ev)
+{
+    switch (ev->mouseEventType()) {
+    case LMouseEvent::MouseLeftPressEvent:
+        return mousePressEvent(ev);
+
+    case LMouseEvent::MouseLeftReleaseEvent:
+        return mouseReleaseEvent(ev);
+
+    default:
+        return false;
+    }
+}
+
+bool LWidget::mousePressEvent(const lshared_ptr<LMouseEvent>& ev)
+{
+    return false;
+}
+
+bool LWidget::mouseReleaseEvent(const lshared_ptr<LMouseEvent>& ev)
+{
+    return false;
+}
+
+bool LWidget::isContainsPt(const SkIPoint& pt) const
+{
+    auto&& pos = m_Style.pos();
+    auto&& size = m_Style.size();
+    if (pt.x() >= pos.fX && pt.x() <= pos.fX + size.fWidth &&
+            pt.y() >= pos.fY && pt.y() <= pos.fY + size.fHeight) {
+        return true;
+    }
+
+    return false;
 }

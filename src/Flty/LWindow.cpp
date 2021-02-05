@@ -6,6 +6,7 @@
 #include "LLayerContext.h"
 #include "LGraphicManager.h"
 #include "LWidget.h"
+#include "LMouseEvent.h"
 
 LWindow::LWindow(void* platformData) :
     m_BeckendType{ SkWindow::kNativeGL_BackendType },
@@ -43,11 +44,19 @@ bool LWindow::onMouse(int x, int y, skui::InputState inputState, skui::ModifierK
         return false;
     }
 
-    SkIPoint pt = SkIPoint::Make(x, y);
+    if (inputState == skui::InputState::kMove) {
+        return false;
+    }
+
+    lshared_ptr<LMouseEvent> ev = std::make_shared<LMouseEvent>(x, y);
+    ev->setMouseEventType(inputState);
+
     bool isHandled = false;
     int size = m_Roots.size();
-    for (int i = size - 1; i > 0 && !isHandled; --i) {
-        //m_Roots[i]->
+    for (int i = size - 1; i >= 0 && !isHandled; --i) {
+        if (m_Roots[i]->isContainsPt(ev->pos())) {
+            isHandled = m_Roots[i]->event(ev);
+        }
     }
 
     return isHandled;

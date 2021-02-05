@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -218,10 +218,12 @@ SK_BUILD_JSON_WRITER
     <ClCompile Include="base\win32\shared_memory.cpp" />
     <ClCompile Include="base\win32\win_util.cpp" />
     <ClCompile Include="LApplication.cpp" />
+    <ClCompile Include="LButton.cpp" />
     <ClCompile Include="LGraphicManager.cpp" />
     <ClCompile Include="LLabel.cpp" />
     <ClCompile Include="LLayerContext.cpp" />
     <ClCompile Include="LLayoutManager.cpp" />
+    <ClCompile Include="LMouseEvent.cpp" />
     <ClCompile Include="LStyleSheet.cpp" />
     <ClCompile Include="LVerticalBox.cpp" />
     <ClCompile Include="LWidget.cpp" />
@@ -294,10 +296,13 @@ SK_BUILD_JSON_WRITER
     <ClInclude Include="base\win32\win_util.h" />
     <ClInclude Include="base\_nvwa.h" />
     <ClInclude Include="Defines.hpp" />
+    <ClInclude Include="LButton.h" />
+    <ClInclude Include="LEvent.hpp" />
     <ClInclude Include="LGraphicManager.h" />
     <ClInclude Include="LLabel.h" />
     <ClInclude Include="LLayerContext.h" />
     <ClInclude Include="LLayoutManager.h" />
+    <ClInclude Include="LMouseEvent.h" />
     <ClInclude Include="LStyleSheet.h" />
     <ClInclude Include="LVerticalBox.h" />
     <ClInclude Include="LWidget.h" />

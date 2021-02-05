@@ -5,8 +5,8 @@ enum WidgetType : unsigned char
 {
     Widget = 0,
     Label  = 1,
+    Button = 1,
 };
-
 
 
 #endif // __WIDGETTYPE_HPP__

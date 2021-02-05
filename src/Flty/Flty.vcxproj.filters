@@ -210,6 +210,10 @@
     <ClCompile Include="LVerticalBox.cpp">
       <Filter>flty\ui</Filter>
     </ClCompile>
+    <ClCompile Include="LMouseEvent.cpp" />
+    <ClCompile Include="LButton.cpp">
+      <Filter>flty\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LApplication.h">
@@ -444,6 +448,11 @@
       <Filter>flty\ui</Filter>
     </ClInclude>
     <ClInclude Include="LVerticalBox.h">
+      <Filter>flty\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="LEvent.hpp" />
+    <ClInclude Include="LMouseEvent.h" />
+    <ClInclude Include="LButton.h">
       <Filter>flty\ui</Filter>
     </ClInclude>
   </ItemGroup>
