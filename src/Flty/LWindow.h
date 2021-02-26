@@ -15,12 +15,12 @@ public:
     LWindow(void* platformData);
     ~LWindow();
 
-    virtual void onPaint(SkSurface* surface);
-    virtual void onBackendCreated();
-    virtual bool onMouse(int x, int y, skui::InputState inputState, skui::ModifierKey modifierKey);
+    virtual void onPaint(SkSurface* surface) override;
+    virtual void onBackendCreated() override;
+    virtual bool onMouse(int x, int y, skui::InputState inputState, skui::ModifierKey modifierKey) override;
+    virtual void onResize(int width, int height) override;
 
     void onIdle();
-    void onResize(int width, int height);
     void show();
 
     void setTitle(const char* text);
@@ -37,6 +37,10 @@ public:
 
     void onWidgetSizeChanged(const LStyleSheet& style, int id);
 
+    SkISize wndSize() const {
+        return m_WndSize;
+    }
+
 private:
     lunique_ptr<sk_app::Window>     m_WindowPtr;
     sk_app::Window::BackendType     m_BeckendType;
@@ -51,7 +55,7 @@ private:
 
     lvct_shared_ptr<LWidget>        m_Roots;
     lunorder_map<int, lwidget_sptr> m_Widgets;
+    SkISize                         m_WndSize;
 };
 
 #endif // __LWINDOW_H__
-

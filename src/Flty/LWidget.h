@@ -60,6 +60,11 @@ public:
     void setMargin(const std::initializer_list<int>& lt);
     void setPadding(const std::initializer_list<int>& lt);
 
+    // for root widget
+    void setExtend(bool isExtend);
+    bool isExtend() const;
+    void extendSize();
+
     virtual unsigned layerIndex() const { 
         if (m_LayerIndexPtr) {
             return *m_LayerIndexPtr.get();
@@ -87,6 +92,7 @@ public:
 protected:
     bool dispatchMouseEvent(const lshared_ptr<LMouseEvent>& ev);
 
+
 public:
     LStyleSheet                 m_Style;
     const int                   m_WidgetId;
@@ -102,6 +108,9 @@ protected:
     lvct_shared_ptr<LWidget> m_ChildWidgets;
 
     lshared_ptr<unsigned>    m_LayerIndexPtr = nullptr;
+
+private:
+    bool                     m_IsExtend;
 };
 
 #endif // ___LWIDGET_H__

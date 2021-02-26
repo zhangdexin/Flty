@@ -106,6 +106,17 @@ void LWidget::setPadding(const std::initializer_list<int>& lt)
     SET_WIDGET_STYLE_ONE(lt, setPadding, addLayoutSet);
 }
 
+bool LWidget::isExtend() const
+{
+    return m_IsExtend;
+}
+
+void LWidget::setExtend(bool isExtend)
+{
+    m_IsExtend = isExtend;
+    extendSize();
+}
+
 void LWidget::setLayerIndex(const lshared_ptr<unsigned>& index)
 {
     m_LayerIndexPtr = index;
@@ -120,6 +131,8 @@ void LWidget::setAttachWnd(const lwindow_sptr& window)
     for (auto& item : m_ChildWidgets) {
         item->setAttachWnd(window);
     }
+
+    extendSize();
 }
 
 bool LWidget::event(const lshared_ptr<LEvent>& ev)
@@ -174,6 +187,24 @@ bool LWidget::dispatchMouseEvent(const lshared_ptr<LMouseEvent>& ev)
     default:
         return false;
     }
+}
+
+void LWidget::extendSize()
+{
+    if (!m_IsExtend) {
+        return;
+    }
+
+    if (!m_AttachWnd) {
+        return;
+    }
+
+    auto wndSize = m_AttachWnd->wndSize();
+    if (m_Style.size().equals(wndSize.fWidth, wndSize.fHeight)) {
+        return;
+    }
+
+    setFixedSize(wndSize);
 }
 
 bool LWidget::mousePressEvent(const lshared_ptr<LMouseEvent>& ev)

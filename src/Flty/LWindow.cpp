@@ -70,12 +70,15 @@ void LWindow::onIdle()
 
 void LWindow::onResize(int width, int height)
 {
+    m_WndSize.set(width, height);
+
     m_GraphicMgr->initCanvas(width, height);
     for (auto& iter : m_LayerContexts) {
         iter->initCanvas(width, height);
     }
 
     for (auto &iter : m_Roots) {
+        iter->extendSize();
         addLayoutSet(iter);
     }
 }

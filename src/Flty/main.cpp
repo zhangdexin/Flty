@@ -31,7 +31,8 @@ int Main(void* platformData, int argc, lstring *argv)
     widget1->setMargin({10});
 
     widget->setBackgroundColor(SK_ColorRED);
-    widget->setFixedSize(SkISize::Make(800, 600));
+    widget->setExtend(true);
+    //widget->setFixedSize(SkISize::Make(800, 600));
 
     widget->addChildWidget(widget1);
     widget->addChildWidget(label);
